@@ -1,6 +1,6 @@
 export interface CollateralType {
   symbol: "ETH" | "wstETH" | "rETH"
-  ltv: number
+  ltvMax: number
   icon: string
 }
 
@@ -19,4 +19,3 @@ export interface ValidationError {
   field: string
   message: string
 }
-
