@@ -1,24 +1,26 @@
 import { PRICE_FEEDS, MIN_BORROW_AMOUNT } from "@/config/constants"
 import type { CollateralType, ValidationError } from "@/types/borrow"
 
+const percent = (amount: number, percentage: number): number => (amount * percentage) / 100;
+
 export class BorrowCalculations {
-  static calculateMaxBorrowAmount(amount: number, type: CollateralType): number {
-    return (amount * PRICE_FEEDS[type.symbol] * type.ltvMax) / 100
+  static calculateMaxBorrowAmount(collateral: number, collType: CollateralType): number {
+    return percent(collateral * PRICE_FEEDS[collType.symbol], collType.ltvMax)
   }
 
-  static calculateCurrentLTV(borrow: number, collateral: number, type: CollateralType): number {
-    return collateral === 0 ? 0 : (borrow / (collateral * PRICE_FEEDS[type.symbol])) * 100
+  static calculateCurrentLTV(borrow: number, collateral: number, collType: CollateralType): number {
+    return collateral === 0 ? 0 : (borrow / (collateral * PRICE_FEEDS[collType.symbol])) * 100
   }
 
-  static calculateLiquidationPrice(borrow: number, collateral: number, type: CollateralType): number {
-    return collateral === 0 ? 0 : borrow / (collateral * (type.ltvMax / 100))
+  static calculateLiquidationPrice(borrow: number, collateral: number, collType: CollateralType): number {
+    return collateral === 0 ? 0 : borrow / (percent(collateral, collType.ltvMax))
   }
 
-  static calculateInterestCost(amount: number, rate: number): number {
-    return (amount * rate) / 100
+  static calculateInterestCost(borrow: number, rate: number): number {
+    return percent(borrow, rate)
   }
 
-  static validateBorrowInputs(collateral: string, borrow: string, type: CollateralType): ValidationError[] {
+  static validateBorrowInputs(collateral: string, borrow: string, collType: CollateralType): ValidationError[] {
     const errors: ValidationError[] = []
     const collateralNum = parseFloat(collateral)
     const borrowNum = parseFloat(borrow)
@@ -32,7 +34,7 @@ export class BorrowCalculations {
     }
 
     if (!isNaN(collateralNum) && !isNaN(borrowNum) && collateralNum > 0) {
-      const maxBorrow = this.calculateMaxBorrowAmount(collateralNum, type)
+      const maxBorrow = this.calculateMaxBorrowAmount(collateralNum, collType)
       if (borrowNum > maxBorrow) {
         errors.push({ field: "borrow", message: `Maximum borrow amount is ${maxBorrow.toFixed(2)} BOLD` })
       }
