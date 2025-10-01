@@ -27,9 +27,11 @@ export class BorrowCalculations {
 
     if (isNaN(collateralNum) || collateralNum <= 0) {
       errors.push({ field: "collateral", message: "Please enter a valid collateral amount" })
-    }
-
-    if (isNaN(borrowNum) || borrowNum < MIN_BORROW_AMOUNT) {
+    } 
+    
+    if (isNaN(borrowNum) || borrowNum <= 0) {
+      errors.push({ field: "borrow", message: "Please enter a valid borrow amount" })
+    } else if (borrowNum < MIN_BORROW_AMOUNT) {
       errors.push({ field: "borrow", message: `Minimum borrow amount is ${MIN_BORROW_AMOUNT} BOLD` })
     }
 
