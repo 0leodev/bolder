@@ -12,6 +12,7 @@ body {
   --foreground: oklch(0.92 0 0);
   --top-bar: oklch(0% 0 0 / 0.149);
   --card: oklch(0.25 0 0);
+  --button: oklch(34.07% 0.00004 271.152);
   --popover: oklch(0.25 0 0);
   --popover-foreground: oklch(0.92 0 0);
   --primary: oklch(0.92 0 0);
@@ -35,6 +36,7 @@ body {
   --color-foreground: var(--foreground);
   --color-top-bar: var(--top-bar);  
   --color-card: var(--card);
+  --color-button: var(--button);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);

@@ -2,6 +2,7 @@
 import "./globals.css";
 import WalletProviders from "@/providers/WalletProviders";
 import TopBar from "@/components/TopBar";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
   children,
@@ -15,6 +16,7 @@ export default function RootLayout({
           <TopBar />
           {children}
         </WalletProviders>
+        <Toaster />
       </body>
     </html>
   );
