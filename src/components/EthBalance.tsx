@@ -8,11 +8,11 @@ export default function EthBalance() {
   return (
     <div>
       {balance != undefined && (
-        <div className="p-4 bg-card rounded-lg flex justify-between font-semibold">
+        <div className="p-4 bg-muted/20 border border-border/50 rounded-xl flex justify-between font-semibold">
           <span>{balance.symbol}</span>
           <span>{parseFloat(formatUnits(balance.value, balance.decimals)).toFixed(4)}</span>
         </div>
       )}
     </div>
   );
-}
+} 
