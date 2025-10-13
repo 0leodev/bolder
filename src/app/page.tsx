@@ -1,10 +1,5 @@
-"use client";
-import BorrowCard from "@/components/borrow-card";
+import { redirect } from "next/navigation"
 
 export default function Home() {
-  return (
-    <main className="container mx-auto px-2 py-10">
-        <BorrowCard />
-    </main>    
-  );
+  redirect("/borrow")
 }

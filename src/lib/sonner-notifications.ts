@@ -8,7 +8,7 @@ const createToast = (title?: string, description?: string) =>
       borderRadius: '10px',
       fontSize: '14px',
       padding: '20px',
-      backdropFilter: 'blur(4px)',
+      backdropFilter: 'blur(10px)',
     }
   })
 

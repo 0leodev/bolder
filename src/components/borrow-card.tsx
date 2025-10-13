@@ -1,4 +1,4 @@
-import EthBalance from "@/components/EthBalance"
+import EthBalance from "@/components/ethBalance"
 import { borrowSubmitted } from '@/lib/sonner-notifications';
 import { Button } from '@/components/ui/button';
 

@@ -1,7 +1,7 @@
 "use client";
 import "./globals.css";
 import WalletProviders from "@/providers/WalletProviders";
-import TopBar from "@/components/TopBar";
+import { Navigation } from "@/components/navigation";
 import { Toaster } from "@/components/ui/sonner";
 
 export default function RootLayout({
@@ -13,8 +13,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <WalletProviders>
-          <TopBar />
-          {children}
+          <Navigation />
+          <div className="pt-10">
+            {children}
+          </div>
         </WalletProviders>
         <Toaster />
       </body>
