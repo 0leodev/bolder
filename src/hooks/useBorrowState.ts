@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback ,useMemo } from 'react'
 import { BorrowState, ValidationError } from "@/types/borrow"
 import { COLLATERAL_TYPES, DEFAULT_INTEREST_RATE } from "@/config/constants"
+import BorrowCalculations from "@/lib/borrow-calculations"
 
 
 export default function useBorrowState() {
@@ -39,4 +40,30 @@ export default function useBorrowState() {
         : state.balance;
     setState((prev) => ({...prev, collateralAmount: maxCollateral.toString(), }));
   }, [state.selectedCollateral, state.balance]);  
+
+  const calculatedValues = useMemo(() => {
+    const collateralNum = Number.parseFloat(state.collateralAmount) || 0;
+    const borrowNum = Number.parseFloat(state.borrowAmount) || 0;
+
+    const maxBorrowAmount = BorrowCalculations.calculateMaxBorrowAmount(
+      collateralNum,
+      state.selectedCollateral
+    );
+
+    const currentLTV = BorrowCalculations.calculateCurrentLTV(
+      borrowNum,
+      collateralNum,
+      state.selectedCollateral
+    );
+
+    const liquidationPrice = BorrowCalculations.calculateLiquidationPrice(
+      borrowNum,
+      collateralNum,
+      state.selectedCollateral
+    );
+
+    return { maxBorrowAmount, currentLTV, liquidationPrice }
+    
+  }, [state.collateralAmount, state.borrowAmount, state.selectedCollateral]);
+
 }

@@ -3,7 +3,7 @@ import type { CollateralType, ValidationError } from "@/types/borrow"
 
 const percent = (amount: number, percentage: number): number => (amount * percentage) / 100;
 
-export class BorrowCalculations {
+export default class BorrowCalculations {
   static calculateMaxBorrowAmount(collateral: number, collType: CollateralType): number {
     return percent(collateral * PRICE_FEEDS[collType.symbol], collType.ltvMax)
   }
