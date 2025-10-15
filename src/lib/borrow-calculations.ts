@@ -1,9 +1,9 @@
 import { PRICE_FEEDS, MIN_BORROW_AMOUNT } from "@/lib/constants"
 import type { CollateralType, ValidationError } from "@/types/borrow"
 
-const percent = (amount: number, percentage: number): number => (amount * percentage) / 100;
+const percent = (amount: number, percentage: number): number => (amount * percentage * 0.01); // or (amount * percentage) / 100
 
-export default class BorrowCalculations {
+export default class BorrowCalculations { 
   static calculateMaxBorrowAmount(collateral: number, collType: CollateralType): number {
     return percent(collateral * PRICE_FEEDS[collType.symbol], collType.ltvMax)
   }

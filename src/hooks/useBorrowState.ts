@@ -66,4 +66,29 @@ export default function useBorrowState() {
     
   }, [state.collateralAmount, state.borrowAmount, state.selectedCollateral]);
 
+  const validateInputs = useCallback(() => {
+    const validationErrors = BorrowCalculations.validateBorrowInputs(
+      state.collateralAmount,
+      state.borrowAmount,
+      state.selectedCollateral
+    );
+    setErrors(validationErrors);
+    return validationErrors.length === 0;
+  }, [state.collateralAmount, state.borrowAmount, state.selectedCollateral]);
+
+  return {
+    state: {
+      ...state,
+      ...calculatedValues,
+    },
+    errors,
+    actions: {
+      updateCollateralAmount,
+      updateBorrowAmount,
+      updateSelectedCollateral,
+      updateInterestRate,
+      updateMaxCollateral,
+      validateInputs,
+    },
+  };
 }
