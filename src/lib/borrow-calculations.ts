@@ -1,4 +1,4 @@
-import { PRICE_FEEDS, MIN_BORROW_AMOUNT } from "@/config/constants"
+import { PRICE_FEEDS, MIN_BORROW_AMOUNT } from "@/lib/constants"
 import type { CollateralType, ValidationError } from "@/types/borrow"
 
 const percent = (amount: number, percentage: number): number => (amount * percentage) / 100;
