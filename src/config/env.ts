@@ -4,3 +4,7 @@ export const env_infura = {
   KEY_ID: process.env.KEY_ID,
   KEY_SECRET: process.env.KEY_SECRET,
 };
+
+export const reown = {
+  PROJECT_ID: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID,
+};

@@ -1,14 +1,15 @@
 import { getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { mainnet, sepolia } from "wagmi/chains";
+import { reown } from "@/config/env";
 
 const walletConnectProjectId =
-  process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ??
+  reown.PROJECT_ID ??
   (() => {
-    throw new Error("WalletConnect API is required");
+    throw new Error("WalletConnect project ID is required");
   })();
 
 export const config = getDefaultConfig({
-  appName: "Dapp",
+  appName: "Bolder",
   projectId: walletConnectProjectId,
   chains: [mainnet, sepolia],
   ssr: true,

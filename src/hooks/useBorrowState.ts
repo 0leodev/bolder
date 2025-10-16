@@ -3,7 +3,6 @@ import { BorrowState, ValidationError } from "@/types/borrow"
 import { COLLATERAL_TYPES, DEFAULT_INTEREST_RATE } from "@/lib/constants"
 import BorrowCalculations from "@/lib/borrow-calculations"
 
-
 export default function useBorrowState() {
   const [state, setState] = useState<BorrowState>({
     collateralAmount: "",

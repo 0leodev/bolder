@@ -4,7 +4,7 @@ const createToast = (title?: string, description?: string) =>
   () => toast(title, {
     description,
     style: {
-      background: 'var(--top-bar)',
+      background: 'var(--navigation)',
       borderRadius: '10px',
       fontSize: '14px',
       padding: '20px',
