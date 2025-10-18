@@ -1,6 +1,6 @@
 import { useState, useCallback ,useMemo } from 'react'
 import { BorrowState, ValidationError } from "@/types/borrow"
-import { COLLATERAL_TYPES, DEFAULT_INTEREST_RATE } from "@/lib/constants"
+import { COLLATERAL_TYPES, AVG_INTEREST_RATE } from "@/lib/constants"
 import BorrowCalculations from "@/lib/borrow-calculations"
 
 export default function useBorrowState() {
@@ -8,7 +8,7 @@ export default function useBorrowState() {
     collateralAmount: "",
     borrowAmount: "",
     selectedCollateral: COLLATERAL_TYPES[0],
-    interestRate: DEFAULT_INTEREST_RATE,
+    interestRate: AVG_INTEREST_RATE,
     maxBorrowAmount: 0,
     liquidationPrice: 0,
     currentLTV: 0,
