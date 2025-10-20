@@ -24,8 +24,10 @@ export const MIN_INTEREST_RATE = 0.5;
 export const MAX_INTEREST_RATE = 25.0;
 
 // Mock price feeds (in production, these would come from oracles)
+const twoDigits = (num: number) => parseFloat(num.toFixed(2))
+
 export const PRICE_FEEDS = {
-  ETH: 3200,
-  wstETH: 3520,
-  rETH: 3350,
+  ETH: twoDigits(3200.4564565767),
+  wstETH: twoDigits(3520.54666654),
+  rETH: twoDigits(3350.4564564565),
 };

@@ -24,7 +24,6 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
     const inputValue = e.target.value
     setCustomInput(inputValue)
     setIsCustomMode(true)
-
     const numValue = parseFloat(inputValue)
     if (!isNaN(numValue) && numValue >= MIN_INTEREST_RATE && numValue <= MAX_INTEREST_RATE) {
       onChange(numValue)
@@ -46,7 +45,7 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
         <div className="flex items-center gap-2">
           <Input
             type="number"
-            value={isCustomMode ? customInput : value.toFixed(1)}
+            value={isCustomMode ? customInput : value.toFixed(2)}
             onChange={handleCustomInputChange}
             onBlur={handleCustomInputBlur}
             onFocus={() => setIsCustomMode(true)}
@@ -54,7 +53,7 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
             max={MAX_INTEREST_RATE}
             step={0.1}
             className="w-16 h-7 text-xs text-center border-border/50 focus:border-primary [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
-            placeholder={value.toFixed(1)}
+            placeholder={value.toFixed(2)}
           />
           <span className="text-sm font-medium">%</span>
         </div>
