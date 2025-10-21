@@ -9,10 +9,13 @@ interface InputFieldProps {
   placeholder?: string
   error?: string
   suffix?: React.ReactNode
+  suffix2?: React.ReactNode
   className?: string
 }
 
-export function InputField({ value, onChange, placeholder, error, suffix, className }: InputFieldProps) {
+export function InputField({ value, onChange, placeholder, error, suffix, suffix2, className }: InputFieldProps) {
+  const hasBothSuffixes = suffix && suffix2;
+  
   return (
     <div className={cn("space-y-1", className)}>
       <div className="relative">
@@ -21,11 +24,17 @@ export function InputField({ value, onChange, placeholder, error, suffix, classN
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           className={cn(
-            "h-10 bg-muted/30 border-border/50 text-base font-normal rounded-xl pr-16 placeholder:text-muted-foreground/50",
+            "h-10 bg-muted/30 border-border/50 text-base font-normal rounded-xl placeholder:text-muted-foreground/50",
+            hasBothSuffixes ? "pr-32" : "pr-16",
             error && "border-destructive/50",
           )}
         />
-        {suffix && <div className="absolute right-3 top-1/2 -translate-y-1/2">{suffix}</div>}
+        {(suffix || suffix2) && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            {suffix}
+            {suffix2}
+          </div>
+        )}
       </div>
       {error && <p className="text-xs text-destructive/80 px-1">{error}</p>}
     </div>

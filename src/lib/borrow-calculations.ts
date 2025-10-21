@@ -6,8 +6,7 @@ const percent = (amount: number, percentage: number): number => (amount * percen
 export default class BorrowCalculations {
   
   static calculateMaxBorrowAmount(collateral: number, collType: CollateralType): number {
-    const maxBorrow = percent(collateral * PRICE_FEEDS[collType.symbol], collType.ltvMax)
-    return parseFloat(maxBorrow.toFixed(0))
+    return percent(collateral * PRICE_FEEDS[collType.symbol], collType.ltvMax)
   }
 
   static calculateCurrentLTV(borrow: number, collateral: number, collType: CollateralType): number {

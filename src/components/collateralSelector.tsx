@@ -17,7 +17,7 @@ export function CollateralSelector({ selectedCollateral, onSelect }: CollateralS
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-10 px-3 bg-muted/50 border-border/50 hover:bg-muted/50 rounded-xl">
           <span className="text-base mr-1">{selectedCollateral.icon}</span>
-          <span className="font-normal text-sm">{selectedCollateral.symbol}</span>
+          <span className="font-bold text-sm">{selectedCollateral.symbol}</span>
           <ChevronDown className="ml-1 h-3 w-3 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
