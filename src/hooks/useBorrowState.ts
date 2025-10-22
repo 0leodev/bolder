@@ -34,9 +34,7 @@ export default function useBorrowState() {
   }, []);
 
   const updateMaxCollateral = useCallback(() => {
-    const maxCollateral = state.selectedCollateral.symbol === "ETH"
-        ? state.balance - 0.002
-        : state.balance;
+    const maxCollateral = BorrowCalculations.calculateBalance(state.balance, state.selectedCollateral.symbol);
     setState((prev) => ({...prev, collateralAmount: maxCollateral.toString(), }));
   }, [state.selectedCollateral, state.balance]);
 

@@ -11,9 +11,10 @@ interface InputFieldProps {
   suffix?: React.ReactNode
   suffix2?: React.ReactNode
   className?: string
+  prClass?: string
 }
 
-export function InputField({ value, onChange, placeholder, error, suffix, suffix2, className }: InputFieldProps) {
+export function InputField({ value, onChange, placeholder, error, suffix, suffix2, className, prClass }: InputFieldProps) {
   const hasBothSuffixes = suffix && suffix2;
   
   return (
@@ -25,7 +26,7 @@ export function InputField({ value, onChange, placeholder, error, suffix, suffix
           placeholder={placeholder}
           className={cn(
             "h-10 bg-muted/30 border-border/50 text-base font-normal rounded-xl placeholder:text-muted-foreground/50",
-            hasBothSuffixes ? "pr-32" : "pr-16",
+            prClass,
             error && "border-destructive/50",
           )}
         />
