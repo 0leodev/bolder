@@ -23,14 +23,6 @@ export default class BorrowCalculations {
     return parseFloat(interest.toFixed(0))
   }
 
-  static calculateBalance(balance: number, symbol: string): string {
-    return symbol === "ETH" ? (balance - 0.002).toFixed(3) : balance.toFixed(3);
-  }
-
-  static getAvailableBalanceNumber(balance: number, symbol: string): number {
-    return symbol === "ETH" ? balance - 0.002 : balance;
-  }
-
   static validateBorrowInputs(collateral: string, borrow: string, collType: CollateralType): ValidationError[] {
     const errors: ValidationError[] = []
     const collateralNum = parseFloat(collateral)

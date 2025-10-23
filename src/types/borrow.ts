@@ -12,7 +12,6 @@ export interface BorrowState {
   maxBorrowAmount: number
   liquidationPrice: number
   currentLTV: number
-  balance: number
 }
 
 export interface ValidationError {

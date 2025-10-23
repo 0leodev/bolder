@@ -6,6 +6,7 @@ import { borrowSubmitted } from "@/lib/sonner-notifications"
 import { InputField } from "@/components/inputField"
 import { Button } from "@/components/ui/button"
 import { CollateralSelector } from "@/components/collateralSelector"
+import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
 
 const boldOptions = [
   { percent: 0.2, emoji: '🟢' },
@@ -15,6 +16,7 @@ const boldOptions = [
 
 export default function BorrowCard() {
   const { state, errors, actions } = useBorrowState()
+  const balances = useCollateralBalances()
 
   const handleBorrow = () => {
     if (actions.validateInputs()) {
@@ -49,7 +51,7 @@ export default function BorrowCard() {
               prClass={"pr-42"}
               suffix={
                 <span className="text-xs text-muted-foreground font-bold">
-                  Available {BorrowCalculations.calculateBalance(state.balance, state.selectedCollateral.symbol)}
+                  Available {getCollateralBalance(balances, state.selectedCollateral).toFixed(3)}
                 </span>
               }
               suffix2={
