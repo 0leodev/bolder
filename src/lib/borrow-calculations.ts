@@ -23,18 +23,16 @@ export default class BorrowCalculations {
     return parseFloat(interest.toFixed(0))
   }
 
-  static validateBorrowInputs(collateral: string, borrow: string, collType: CollateralType): ValidationError[] {
+  static validateBorrowInputs(collateral: string, borrow: string, collType: CollateralType, balance: number): ValidationError[] {
     const errors: ValidationError[] = []
     const collateralNum = parseFloat(collateral)
     const borrowNum = parseFloat(borrow)
 
-    if (isNaN(collateralNum) || collateralNum <= 0) {
+    if (isNaN(collateralNum) || collateralNum <= 0 || balance <= collateralNum) {
       errors.push({ field: "collateral", message: "Please enter a valid collateral amount" })
     }
 
-    if (isNaN(borrowNum) || borrowNum <= 0) {
-      errors.push({ field: "borrow", message: "Please enter a valid borrow amount" })
-    } else if (borrowNum < MIN_BORROW_AMOUNT) {
+    if (isNaN(collateralNum) || borrowNum <= MIN_BORROW_AMOUNT) {
       errors.push({ field: "borrow", message: `Minimum borrow amount is ${MIN_BORROW_AMOUNT} BOLD` })
     }
 

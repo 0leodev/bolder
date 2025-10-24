@@ -75,7 +75,8 @@ export default function useBorrowState() {
     const validationErrors = BorrowCalculations.validateBorrowInputs(
       state.collateralAmount,
       state.borrowAmount,
-      state.selectedCollateral
+      state.selectedCollateral,
+      getCollateralBalance(balances, state.selectedCollateral)
     );
     setErrors(validationErrors);
     return validationErrors.length === 0;
@@ -85,10 +86,8 @@ export default function useBorrowState() {
     state: {
       ...state,
       ...calculatedValues,
-      balance: getCollateralBalance(balances, state.selectedCollateral),
     },
     errors,
-    balances,
     actions: {
       updateCollateralAmount,
       updateBorrowAmount,

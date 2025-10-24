@@ -22,7 +22,7 @@ export function InputField({ value, onChange, placeholder, error, suffix, suffix
       <div className="relative">
         <Input
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value.replace(/[^0-9.]/g, '').split('.').slice(0, 2).join('.'))}
           placeholder={placeholder}
           className={cn(
             "h-10 bg-muted/30 border-border/50 text-base font-normal rounded-xl placeholder:text-muted-foreground/50",
