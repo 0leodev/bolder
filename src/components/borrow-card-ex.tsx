@@ -37,14 +37,14 @@ export default function BorrowCard() {
 
   return (
     <div className="max-w-lg mx-auto space-y-6">
-      <div className="bg-card rounded-2xl p-6 space-y-6 border border-border/50">
+      <div className="space-y-6">
 
 {/*----------------------------- COLLATERAL BOX ------------------------*/}        
-        <div data-box="COLLATERAL BOX">
+        <div className="bg-card rounded-2xl p-5 border border-border/50" data-box="COLLATERAL BOX">
           <span className="text-lg font-medium text-muted-foreground">Collateral</span>
 
           <div className="mt-5 flex gap-2">
-            <div className="flex-1">            
+            <div className="flex-1">   
             <InputField
               value={state.collateralAmount}
               onChange={actions.updateCollateralAmount}
@@ -61,22 +61,22 @@ export default function BorrowCard() {
                 </Button>
               }
             />
-            </div>           
+            </div> 
             <CollateralSelector
               selectedCollateral={state.selectedCollateral}
               onSelect={actions.updateSelectedCollateral}
             />
           </div>
 
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-5">
             <span className="text-xs text-muted-foreground font-bold">
-              Available {getCollateralBalance(balances, state.selectedCollateral).toFixed(3)}
+              {getCollateralBalance(balances, state.selectedCollateral).toFixed(3)} {state.selectedCollateral.symbol}
             </span>
           </div>
         </div>      
 
 {/*----------------------------- BORROW BOX ------------------------*/}  
-        <div data-box="BORROW BOX">
+        <div className="bg-card rounded-2xl p-5 border border-border/50" data-box="BORROW BOX">
           <span className="text-lg font-medium text-muted-foreground">Borrow</span>
 
           <div className="mt-2 flex gap-1">
@@ -120,7 +120,7 @@ export default function BorrowCard() {
             </div>
           </div>
 
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-5">
             <span className="text-xs text-muted-foreground font-bold">
               {formatNumber(state.maxBorrowAmount * 0.9)} BOLD
             </span>
