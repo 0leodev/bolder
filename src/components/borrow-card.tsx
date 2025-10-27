@@ -1,8 +1,8 @@
 "use client"
 
 import useBorrowState from "@/hooks/useBorrowState"
+import useHandleBorrow from "@/hooks/useHandleBorrow"
 import BorrowCalculations from "@/lib/borrow-calculations"
-import { borrowSubmitted } from "@/lib/sonner-notifications"
 import { InputField } from "@/components/inputField"
 import { Button } from "@/components/ui/button"
 import { CollateralSelector } from "@/components/collateralSelector"
@@ -21,13 +21,7 @@ const boldOptions = [
 export default function BorrowCard() {
   const { state, errors, actions } = useBorrowState()
   const balances = useCollateralBalances()
-
-  const handleBorrow = () => {
-    if (actions.validateInputs()) {
-      console.log("Borrowing with state:", state)
-      borrowSubmitted()
-    }
-  }
+  const handleBorrow = useHandleBorrow(actions.validateInputs, state)
   
   const getFieldError = (field: string) => {
     return errors.find((error) => error.field === field)?.message
@@ -72,8 +66,8 @@ export default function BorrowCard() {
           </div>
 
           <div className="flex justify-start mt-5">
-            <span className="text-xs text-muted-foreground font-bold">
-              {getCollateralBalance(balances, state.selectedCollateral).toFixed(3)} {state.selectedCollateral.symbol}
+            <span className="text-xs text-muted-foreground font-medium">
+              {getCollateralBalance(balances, state.selectedCollateral.symbol).toFixed(3)} {state.selectedCollateral.symbol}
             </span>
           </div>
         </div>      
@@ -124,7 +118,7 @@ export default function BorrowCard() {
           </div>
 
           <div className="flex justify-start mt-5">
-            <span className="text-xs text-muted-foreground font-bold">
+            <span className="text-xs text-muted-foreground font-medium">
               {formatNumber(state.maxBorrowAmount * 0.9)} BOLD
             </span>
           </div>

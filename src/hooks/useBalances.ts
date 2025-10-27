@@ -26,6 +26,6 @@ export function useCollateralBalances(): CollateralBalances {
   return balances;
 }
 
-export function getCollateralBalance(balances: CollateralBalances, collateral: CollateralType): number {
-  return balances[collateral.symbol] || 0;
+export function getCollateralBalance(balances: CollateralBalances, symbol: string): number {
+  return balances[symbol as keyof CollateralBalances] || 0;
 }

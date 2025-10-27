@@ -5,13 +5,15 @@ import type { CollateralType } from "@/types/borrow"
 import { COLLATERAL_TYPES } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
 
 interface CollateralSelectorProps {
   selectedCollateral: CollateralType // state
   onSelect: (collateral: CollateralType) => void // action
 }
 
-export function CollateralSelector({ selectedCollateral, onSelect }: CollateralSelectorProps) {
+export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSelectorProps) {
+    const balances = useCollateralBalances()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,15 +23,15 @@ export function CollateralSelector({ selectedCollateral, onSelect }: CollateralS
           <ChevronDown className="ml-1 h-3 w-3 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-40 bg-card/10 backdrop-blur-lg shadow-2xl border-border/50 rounded-xl">
+      <DropdownMenuContent className="w-60 mr-6 bg-card/10 backdrop-blur-lg border-border/50 rounded-xl">
         {COLLATERAL_TYPES.map((collateral) => (
           <DropdownMenuItem
             key={collateral.symbol}
             onClick={() => onSelect(collateral)}
-            className="flex items-center gap-2 p-2 hover:bg-muted/30 cursor-pointer rounded-lg mx-1"
+            className="flex items-center m-2 justify-between p-2 bg-muted/10 hover:bg-muted/30 cursor-pointer rounded-md mx-1"
           >
-            <span className="text-base">{collateral.icon}</span>
-            <span className="font-normal text-sm">{collateral.symbol}</span>
+            <span className="text-base">{collateral.icon} {collateral.symbol}</span>
+            <span className="font-normal text-sm mr-2">{getCollateralBalance(balances, collateral.symbol).toFixed(3)}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
