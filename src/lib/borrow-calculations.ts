@@ -28,11 +28,11 @@ export default class BorrowCalculations {
     const collateralNum = parseFloat(collateral)
     const borrowNum = parseFloat(borrow)
 
-    if (isNaN(collateralNum) || collateralNum <= 0 || balance <= collateralNum) {
+    if (isNaN(collateralNum) || collateralNum <= 0 || balance < collateralNum) {
       errors.push({ field: "collateral", message: "Please enter a valid collateral amount" })
     }
 
-    if (isNaN(collateralNum) || borrowNum <= MIN_BORROW_AMOUNT) {
+    if (isNaN(collateralNum) || borrowNum < MIN_BORROW_AMOUNT) {
       errors.push({ field: "borrow", message: `Minimum borrow amount is ${MIN_BORROW_AMOUNT} BOLD` })
     }
 
