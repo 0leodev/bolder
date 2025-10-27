@@ -9,6 +9,8 @@ import { CollateralSelector } from "@/components/collateralSelector"
 import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
 import { formatNumber } from "@/utils/format"
 import { InterestRateSlider } from "@/components/interestRateSlider"
+import { StatsDisplay } from "@/components/statsDisplay"
+import { AlertCircle } from "lucide-react"
 
 const boldOptions = [
   { percent: 0.2, emoji: '🟢' },
@@ -128,10 +130,48 @@ export default function BorrowCard() {
           </div>
         </div> 
 
-        {/* INTEREST RATE SLIDER */}
-        <div className="bg-card rounded-2xl p-4 border border-border/50">
-          <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />    
-        </div>          
+            {/* INTEREST RATE SLIDER */}
+            <div className="bg-card rounded-2xl p-4 border border-border/50">
+              <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />
+            </div>
+
+        {state.collateralAmount && state.borrowAmount && (
+          <>
+            {/* STATS DISPLAY */}
+            <StatsDisplay
+              collateralType={state.selectedCollateral}
+              currentLTV={state.currentLTV}
+              maxLTV={state.selectedCollateral.ltvMax}
+              liquidationPrice={state.liquidationPrice}
+              interestCost={interestCost}
+            />
+
+            {/* ERRORS */}
+            {errors.length > 0 && ( 
+              <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-3">
+                <div className="flex items-center gap-2 text-destructive text-sm">
+                  <AlertCircle className="h-3 w-3" />
+                  <span>Please fix errors</span>
+                </div>
+                <div className="mt-1 space-y-1">
+                  {errors.map((error, index) => (
+                    <div key={index} className="text-xs text-destructive/80 ml-5">
+                      {error.message}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* SUBMIT TX */}
+            <Button
+              onClick={handleBorrow}
+              className="w-full h-11 text-base font-bold bg-primary/90 text-primary-foreground hover:bg-primary/60 rounded-xl"
+            >
+              Borrow BOLD
+            </Button>
+          </>
+        )}
 
       </div>
     </div>
