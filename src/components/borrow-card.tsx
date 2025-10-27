@@ -135,7 +135,7 @@ export default function BorrowCard() {
               <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />
             </div>
 
-        {state.collateralAmount && state.borrowAmount && (
+        {parseFloat(state.collateralAmount) > 0 && parseFloat(state.borrowAmount) > 0 && (
           <>
             {/* STATS DISPLAY */}
             <StatsDisplay

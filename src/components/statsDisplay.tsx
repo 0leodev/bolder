@@ -54,7 +54,7 @@ export function StatsDisplay({
 
       <div className="bg-muted/10 rounded-xl p-3 border border-border/90">
         <div className="text-xs text-muted-foreground/70 mb-1">Interest Cost/Year</div>
-        <div className="text-sm font-medium">{interestCost} BOLD</div>
+        <div className="text-sm font-medium">{interestCost.toLocaleString()} BOLD</div>
       </div>
     </div>
   )
