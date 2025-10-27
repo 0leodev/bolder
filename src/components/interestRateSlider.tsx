@@ -39,9 +39,9 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <span className="text-sm font-medium text-muted-foreground">Interest Rate</span>
+        <span className="text-lg font-medium text-muted-foreground text-white/70">Interest Rate</span>
         <div className="flex items-center gap-2">
           <Input
             type="number"
@@ -52,7 +52,7 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
             min={MIN_INTEREST_RATE}
             max={MAX_INTEREST_RATE}
             step={0.1}
-            className="w-16 h-7 text-xs text-center border-border/50 focus:border-primary [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+            className="w-16 h-7 text-xs text-center border-border/50 focus:border-primary [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] font-bold"
             placeholder={value.toFixed(2)}
           />
           <span className="text-sm font-medium">%</span>
@@ -68,7 +68,7 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
         className="w-full"
       />
 
-      <div className="flex justify-between text-xs text-muted-foreground/60">
+      <div className="flex justify-between text-xs text-muted-foreground font-bold">
         <span>{MIN_INTEREST_RATE}%</span>
         <span>Avg: {AVG_INTEREST_RATE}%</span>
         <span>{MAX_INTEREST_RATE}%</span>

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { CollateralSelector } from "@/components/collateralSelector"
 import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
 import { formatNumber } from "@/utils/format"
+import { InterestRateSlider } from "@/components/interestRateSlider"
 
 const boldOptions = [
   { percent: 0.2, emoji: '🟢' },
@@ -37,14 +38,14 @@ export default function BorrowCard() {
 
   return (
     <div className="max-w-lg mx-auto space-y-6">
-      <div className="bg-card rounded-2xl p-6 space-y-6 border border-border/50">
+      <div className="space-y-6">
 
 {/*----------------------------- COLLATERAL BOX ------------------------*/}        
-        <div data-box="COLLATERAL BOX">
-          <span className="text-lg font-medium text-muted-foreground">Collateral</span>
+        <div className="bg-card rounded-2xl p-4 border border-border/50" data-box="COLLATERAL BOX">
+          <span className="text-lg font-medium text-muted-foreground text-white/70">Collateral</span>
 
           <div className="mt-5 flex gap-2">
-            <div className="flex-1">            
+            <div className="flex-1">   
             <InputField
               value={state.collateralAmount}
               onChange={actions.updateCollateralAmount}
@@ -61,23 +62,23 @@ export default function BorrowCard() {
                 </Button>
               }
             />
-            </div>           
+            </div> 
             <CollateralSelector
               selectedCollateral={state.selectedCollateral}
               onSelect={actions.updateSelectedCollateral}
             />
           </div>
 
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-start mt-5">
             <span className="text-xs text-muted-foreground font-bold">
-              Available {getCollateralBalance(balances, state.selectedCollateral).toFixed(3)}
+              {getCollateralBalance(balances, state.selectedCollateral).toFixed(3)} {state.selectedCollateral.symbol}
             </span>
           </div>
         </div>      
 
 {/*----------------------------- BORROW BOX ------------------------*/}  
-        <div data-box="BORROW BOX">
-          <span className="text-lg font-medium text-muted-foreground">Borrow</span>
+        <div className="bg-card rounded-2xl p-4 border border-border/50" data-box="BORROW BOX">
+          <span className="text-lg font-medium text-muted-foreground text-white/70">Borrow</span>
 
           <div className="mt-2 flex gap-1">
             {boldOptions.map(({ percent, emoji }) => {
@@ -88,7 +89,7 @@ export default function BorrowCard() {
                   onClick={() => actions.updateBorrowAmount(amount.toFixed(0))}
                   variant="outline"
                   size="sm"
-                  className="text-xs px-2 h-6"
+                  className="text-xs px-2 h-6 font-bolde"
                 >
                   {emoji} {formatNumber(amount)}
                 </Button>
@@ -115,17 +116,22 @@ export default function BorrowCard() {
                 }
               />
                 </div>
-            <div className="flex items-center justify-center bg-muted/20 border border-border/30 rounded-xl px-4 min-w-[100px] h-10">
+            <div className="flex items-center justify-center bg-navigation border border-border/30 rounded-xl px-4 min-w-[100px] h-10">
               <span className="text-sm font-bold">BOLD</span>
             </div>
           </div>
 
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-start mt-5">
             <span className="text-xs text-muted-foreground font-bold">
               {formatNumber(state.maxBorrowAmount * 0.9)} BOLD
             </span>
           </div>
         </div> 
+
+        {/* INTEREST RATE SLIDER */}
+        <div className="bg-card rounded-2xl p-4 border border-border/50">
+          <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />    
+        </div>          
 
       </div>
     </div>
