@@ -36,7 +36,7 @@ export default function useBorrowState() {
   }, []);
 
   const updateMaxCollateral = useCallback(() => {
-    const currentBalance = getCollateralBalance(balances, state.selectedCollateral.symbol).toFixed(3)
+    const currentBalance = getCollateralBalance(balances, state.selectedCollateral.symbol)
     setState((prev) => ({...prev, collateralAmount: currentBalance.toString(), }));
   }, [state.selectedCollateral, balances]);
 

@@ -22,7 +22,7 @@ export default function BorrowCard() {
   const { state, errors, actions } = useBorrowState()
   const balances = useCollateralBalances()
   const handleBorrow = useHandleBorrow(actions.validateInputs, state)
-  
+
   const getFieldError = (field: string) => {
     return errors.find((error) => error.field === field)?.message
   }  

@@ -1,4 +1,3 @@
-import type { CollateralType } from "@/types/borrow";
 import { useAccount, useBalance } from "wagmi";
 import { formatUnits } from "viem";
 
@@ -14,11 +13,11 @@ export function useCollateralBalances(): CollateralBalances {
   const { address } = useAccount();
   const { data: balance } = useBalance({ address });
 
-  const ethParsed = balance ? parseFloat(formatUnits(balance.value, balance.decimals)) : 0;
+  const ethParsed = balance ? parseFloat((formatUnits(balance.value, balance.decimals))) : 0;
   const ethBalance = ethParsed > residualEth ? ethParsed - residualEth : 0;
 
   const balances: CollateralBalances = {
-    ETH: ethBalance,
+    ETH: parseFloat(ethBalance.toFixed(3)),
     wstETH: 8.3,
     rETH: 5.7,
   };
