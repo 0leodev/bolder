@@ -1,8 +1,20 @@
+import { useAccount, useReadContract } from "wagmi";
 import { borrowSubmitted } from "@/lib/sonner-notifications";
 import { BorrowState } from "@/types/borrow";
 import { parseEther } from "viem";
+import { TroveNFT } from "@/abi/TroveNFT";
+import contractAddresses from "@/addresses/11155111.json";
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
+  const { address } = useAccount();
+  
+  const { data: troveNFTBalance } = useReadContract({
+    address: contractAddresses.branches[0].troveNFT as `0x${string}`,
+    abi: TroveNFT,
+    functionName: "balanceOf",
+    args: address ? [address] : undefined,
+  });
+  
   const collateralWei = parseEther(wholeState.collateralAmount);
   const borrowWei = parseEther(wholeState.borrowAmount);
   const interestRateWei = parseEther(wholeState.interestRate.toString());
@@ -10,14 +22,19 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
   return () => {
     if (validateInputs()) {
       console.log("Opening trove with:", {
+        owner: address,
         collateral: collateralWei,
         borrow: borrowWei,
         interestRate: interestRateWei,
+        troveNFTBalance: troveNFTBalance?.toString(),
       });
       borrowSubmitted();
     }
   };
 }
+
+
+// G O A L
 
 // CONTRACT: "wethZapper": "0x7e4a8e4691585c17341c31986cafcf86f0d1ded3",
 // METHOD: openTroveWithRawETH (0xf926c2d2) from LeverageWETHZapper.ts
