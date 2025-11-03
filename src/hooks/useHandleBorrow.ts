@@ -5,6 +5,7 @@ import { parseEther } from "viem";
 import { TroveNFT } from "@/abi/TroveNFT";
 import contractAddresses from "@/addresses/11155111.json";
 import { AVG_INTEREST_RATE } from "@/lib/constants";
+import { LIQUIDATION_GAS_COMPENSATION } from "@/lib/constants"
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
   const { address } = useAccount();
@@ -22,14 +23,16 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
       const borrowWei = parseEther(wholeState.borrowAmount);
       const interestRateWei = parseEther(wholeState.interestRate.toString());
       const maxUpfrontFeeWei = parseEther((((parseFloat(wholeState.borrowAmount) * AVG_INTEREST_RATE * 0.01) / 365) * 7).toString());
+      const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION)      
       
       console.log("Opening trove with:", {
         owner: address,
-        collateral: collateralWei,
+        collateral: BigInt(0),
         borrow: borrowWei,
         interestRate: interestRateWei,
         troveNFTBalance: troveNFTBalance?.toString(),
         maxUpfrontFee: maxUpfrontFeeWei,
+        stateMutabilityPayable: collateralWei + gasCompensationWei,
       });
 
       borrowSubmitted();
@@ -39,14 +42,14 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
 
 // G O A L
 
-// CONTRACT: "wethZapper": "0x7e4a8e4691585c17341c31986cafcf86f0d1ded3",
+// CONTRACT: "leverageZapper": "0xbA9275C6f4D77df02245Aa346C286A122b37244d",
 // METHOD: openTroveWithRawETH (0xf926c2d2) from LeverageWETHZapper.ts
 
 // openTroveWithRawETH payableAmount (ether)
 // _params (tuple)
 // 1 address owner; // address
 // 2 uint256 ownerIndex; // troveNFTBalance
-// 3 uint256 collAmount; // collateralWei
+// 3 uint256 collAmount; // BigInt(0)
 // 4 uint256 boldAmount; // borrowWei
 // 5 uint256 upperHint;
 // 6 uint256 lowerHint;
@@ -56,6 +59,8 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
 // 10 address addManager; // 0x0000000000000000000000000000000000000000
 // 11 address removeManager; // 0x0000000000000000000000000000000000000000
 // 12 address receiver; // 0x0000000000000000000000000000000000000000
+
+// 13 stateMutabilityPayable; // collateralWei + gasCompensationWei
 
 // https://sepolia.etherscan.io/address/0xbA9275C6f4D77df02245Aa346C286A122b37244d#writeContract
 // https://sepolia.etherscan.io/address/0x7e4a8e4691585c17341c31986cafcf86f0d1ded3#writeContract
