@@ -40,6 +40,11 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
         receiver: "0x0000000000000000000000000000000000000000" as `0x${string}`,
       };
 
+      console.log("Opening trove with:", {
+        value: collateralWei + gasCompensationWei, 
+        params,
+      })
+
       borrowSubmitted();
     }
   };

@@ -28,20 +28,20 @@ export default class BorrowCalculations {
     const collateralNum = parseFloat(collateral)
     const borrowNum = parseFloat(borrow)
 
-    // if (isNaN(collateralNum) || collateralNum <= 0 || balance < collateralNum) {
-    //   errors.push({ field: "collateral", message: "Please enter a valid collateral amount" })
-    // }
+    if (isNaN(collateralNum) || collateralNum <= 0 || balance < collateralNum) {
+      errors.push({ field: "collateral", message: "Please enter a valid collateral amount" })
+    }
 
-    // if (isNaN(collateralNum) || borrowNum < MIN_BORROW_AMOUNT) {
-    //   errors.push({ field: "borrow", message: `Minimum borrow amount is ${MIN_BORROW_AMOUNT} BOLD` })
-    // }
+    if (isNaN(collateralNum) || borrowNum < MIN_BORROW_AMOUNT) {
+      errors.push({ field: "borrow", message: `Minimum borrow amount is ${MIN_BORROW_AMOUNT} BOLD` })
+    }
 
-    // if (!isNaN(collateralNum) && !isNaN(borrowNum) && collateralNum > 0) {
-    //   const maxBorrow = this.calculateMaxBorrowAmount(collateralNum, collType)
-    //   if (borrowNum > maxBorrow) {
-    //     errors.push({ field: "borrow", message: `Maximum borrow amount is ${maxBorrow.toFixed(0)} BOLD` })
-    //   }
-    // }
+    if (!isNaN(collateralNum) && !isNaN(borrowNum) && collateralNum > 0) {
+      const maxBorrow = this.calculateMaxBorrowAmount(collateralNum, collType)
+      if (borrowNum > maxBorrow) {
+        errors.push({ field: "borrow", message: `Maximum borrow amount is ${maxBorrow.toFixed(0)} BOLD` })
+      }
+    }
 
     return errors
   }
