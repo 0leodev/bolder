@@ -23,17 +23,22 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
       const borrowWei = parseEther(wholeState.borrowAmount);
       const interestRateWei = parseEther(wholeState.interestRate.toString());
       const maxUpfrontFeeWei = parseEther((((parseFloat(wholeState.borrowAmount) * AVG_INTEREST_RATE * 0.01) / 365) * 7).toString());
-      const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION)      
-      
-      console.log("Opening trove with:", {
+      const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION);
+
+      const params = {
         owner: address,
-        collateral: BigInt(0),
-        borrow: borrowWei,
-        interestRate: interestRateWei,
-        troveNFTBalance: troveNFTBalance?.toString(),
+        ownerIndex: troveNFTBalance ?? BigInt(0),
+        collAmount: BigInt(0),
+        boldAmount: borrowWei,
+        upperHint: BigInt(0),
+        lowerHint: BigInt(0),
+        annualInterestRate: interestRateWei,
+        batchManager: "0x0000000000000000000000000000000000000000" as `0x${string}`,
         maxUpfrontFee: maxUpfrontFeeWei,
-        stateMutabilityPayable: collateralWei + gasCompensationWei,
-      });
+        addManager: "0x0000000000000000000000000000000000000000" as `0x${string}`,
+        removeManager: "0x0000000000000000000000000000000000000000" as `0x${string}`,
+        receiver: "0x0000000000000000000000000000000000000000" as `0x${string}`,
+      };
 
       borrowSubmitted();
     }
