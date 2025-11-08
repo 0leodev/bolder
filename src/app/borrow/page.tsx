@@ -1,6 +1,6 @@
 "use client"
 
-import BorrowCard from "@/components/borrow-card"
+import BorrowCard from "@/components/borrow/borrow-card"
 
 export default function BorrowPage() {
   return (

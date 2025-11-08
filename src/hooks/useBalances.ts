@@ -1,7 +1,7 @@
 import { useAccount, useBalance } from "wagmi";
 import { formatUnits } from "viem";
 
-const residualEth = 0.1; // avoid using all the ETH
+const residualEth = 0.1; // residue (avoid using all the ETH)
 
 interface CollateralBalances {
   ETH: number;
