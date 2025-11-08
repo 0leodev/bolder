@@ -1,6 +1,6 @@
 "use client"
 
-import { PRICE_FEEDS } from "@/lib/constants"
+import { usePriceFeeds } from "@/hooks/usePriceFeeds"
 import type { CollateralType } from "@/types/borrow"
 
 interface StatsDisplayProps {
@@ -18,7 +18,9 @@ export function StatsDisplay({
   liquidationPrice,
   interestCost,
 }: StatsDisplayProps) {
-  const currentPrice = PRICE_FEEDS[collateralType.symbol]
+
+  const prices = usePriceFeeds();
+  const currentPrice = prices[collateralType.symbol]
 
   return (
     <div className="space-y-4">

@@ -3,9 +3,11 @@ import { BorrowState, ValidationError } from "@/types/borrow"
 import { COLLATERAL_TYPES, AVG_INTEREST_RATE } from "@/lib/constants"
 import BorrowCalculations from "@/lib/borrow-calculations"
 import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
+import { usePriceFeeds } from '@/hooks/usePriceFeeds'
 
 export default function useBorrowState() {
   const balances = useCollateralBalances()
+  const prices = usePriceFeeds();
 
   const [state, setState] = useState<BorrowState>({
     collateralAmount: "",
@@ -42,7 +44,7 @@ export default function useBorrowState() {
 
   const updateMaxBorrowAmount = useCallback(() => {
     const collateralNum = parseFloat(state.collateralAmount) || 0;
-    const maxBorrow = BorrowCalculations.calculateMaxBorrowAmount(collateralNum,state.selectedCollateral);
+    const maxBorrow = BorrowCalculations.calculateMaxBorrowAmount(collateralNum,state.selectedCollateral, prices);
     setState((prev) => ({ ...prev, borrowAmount: (maxBorrow * 0.9).toFixed(0) }));
   }, [state.collateralAmount, state.selectedCollateral]);
 
@@ -52,13 +54,15 @@ export default function useBorrowState() {
 
     const maxBorrowAmount = BorrowCalculations.calculateMaxBorrowAmount(
       collateralNum,
-      state.selectedCollateral
+      state.selectedCollateral,
+      prices
     );
 
     const currentLTV = BorrowCalculations.calculateCurrentLTV(
       borrowNum,
       collateralNum,
-      state.selectedCollateral
+      state.selectedCollateral,
+      prices
     );
 
     const liquidationPrice = BorrowCalculations.calculateLiquidationPrice(
@@ -76,7 +80,8 @@ export default function useBorrowState() {
       state.collateralAmount,
       state.borrowAmount,
       state.selectedCollateral,
-      getCollateralBalance(balances, state.selectedCollateral.symbol)
+      getCollateralBalance(balances, state.selectedCollateral.symbol),
+      prices
     );
     setErrors(validationErrors);
     return validationErrors.length === 0;
