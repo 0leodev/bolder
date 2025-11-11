@@ -33,7 +33,7 @@ export default function BorrowCard() {
   )
 
   return (
-    <div className="max-w-lg mx-auto space-y-6">
+    <main className="max-w-lg mx-auto space-y-6">
       <div className="space-y-6">
 
 {/*----------------------------- COLLATERAL BOX ------------------------*/}        
@@ -168,6 +168,6 @@ export default function BorrowCard() {
         )}
 
       </div>
-    </div>
+    </main>
   )
 }
