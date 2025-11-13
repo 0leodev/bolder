@@ -37,7 +37,7 @@ export default function BorrowCard() {
       <div className="space-y-6">
 
 {/*----------------------------- COLLATERAL BOX ------------------------*/}        
-        <div className="bg-card rounded-2xl p-4 border border-border/50" data-box="COLLATERAL BOX">
+        <div className="bg-card rounded-2xl p-4 border border-border" data-box="COLLATERAL BOX">
           <span className="text-lg font-medium text-muted-foreground text-white/70">Collateral</span>
 
           <div className="mt-5 flex gap-2">
@@ -73,7 +73,7 @@ export default function BorrowCard() {
         </div>      
 
 {/*----------------------------- BORROW BOX ------------------------*/}  
-        <div className="bg-card rounded-2xl p-4 border border-border/50" data-box="BORROW BOX">
+        <div className="bg-card rounded-2xl p-4 border border-border" data-box="BORROW BOX">
           <span className="text-lg font-medium text-muted-foreground text-white/70">Borrow</span>
 
           <div className="mt-2 flex gap-1">
@@ -112,7 +112,7 @@ export default function BorrowCard() {
                 }
               />
                 </div>
-            <div className="flex items-center justify-center bg-navigation border border-border/30 rounded-xl px-4 min-w-[100px] h-10">
+            <div className="flex items-center justify-center bg-navigation border border-border rounded-xl px-4 min-w-[100px] h-10">
               <span className="text-sm font-bold">BOLD</span>
             </div>
           </div>
@@ -125,7 +125,7 @@ export default function BorrowCard() {
         </div> 
 
             {/* INTEREST RATE SLIDER */}
-            <div className="bg-card rounded-2xl p-4 border border-border/50">
+            <div className="bg-card rounded-2xl p-4 border border-border">
               <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />
             </div>
 

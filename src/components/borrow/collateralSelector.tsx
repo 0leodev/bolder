@@ -30,8 +30,8 @@ export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSe
             onClick={() => onSelect(collateral)}
             className="flex items-center m-2 justify-between p-2 bg-muted/10 hover:bg-muted/30 cursor-pointer rounded-md mx-1"
           >
-            <span className="text-base">{collateral.icon} {collateral.symbol}</span>
-            <span className="font-normal text-sm mr-2">{getCollateralBalance(balances, collateral.symbol).toFixed(3)}</span>
+            <span className="font-semibold text-base">{collateral.icon} {collateral.symbol}</span>
+            <span className="font-semibold text-sm mr-2">{getCollateralBalance(balances, collateral.symbol).toFixed(3)}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

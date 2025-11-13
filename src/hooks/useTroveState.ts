@@ -13,9 +13,9 @@ export default function useTroveState() {
     args: address ? [address] : undefined,
   });
 
-  const troves = troveNFTBalance ? Array.from({ length: (Number(troveNFTBalance) - 1 ) }) : [];
+  const troves = troveNFTBalance ? Array.from({ length: Number(troveNFTBalance) }) : [];
 
-  return { state: { troves } };
+  return { state: { troves, troveNFTBalance } };
 }
 
 // TODO: Make a array with all the data of each trove.
