@@ -23,6 +23,13 @@ export function useTokenIdsAlchemy(): UseTokenIdsAlchemyReturn {
   const troveNftContracts = useMemo(() => currentNetworkContract.branches.map(branch => branch.troveNFT), [currentNetworkContract]);
 
   useEffect(() => {
+    if (!address) {
+      setError(new Error("Address not available"));
+      setTokenIds([]);
+      setIsLoading(false);
+      return;
+    }
+
     const fetchTokenIds = async () => {
       try {
         setIsLoading(true);
@@ -56,4 +63,3 @@ export function useTokenIdsAlchemy(): UseTokenIdsAlchemyReturn {
 
   return { tokenIds, isLoading, error };
 }
-
