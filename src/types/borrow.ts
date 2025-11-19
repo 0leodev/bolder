@@ -18,3 +18,16 @@ export interface ValidationError {
   field: string
   message: string
 }
+
+export interface Trove {
+  debt: bigint
+  coll: bigint
+  stake: bigint
+  status: number
+  arrayIndex: bigint
+  lastDebtUpdateTime: bigint
+  lastInterestRateAdjTime: bigint
+  annualInterestRate: bigint
+  interestBatchManager: `0x${string}`
+  batchDebtShares: bigint
+}

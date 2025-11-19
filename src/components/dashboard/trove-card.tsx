@@ -4,7 +4,7 @@ import { Copy } from "lucide-react";
 import { copiedToClipboard } from "@/lib/sonner-notifications";
 
 export default function TroveCard() {
-  const { state } = useTroveState();
+  const { troves } = useTroveState();
   const { tokenIds, isLoading, error } = useTokenIdsAlchemy();
 
   if (isLoading) return (

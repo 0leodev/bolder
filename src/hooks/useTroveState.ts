@@ -1,21 +1,50 @@
-import { useReadContract } from "wagmi";
+import { useReadContracts } from "wagmi";
 import contractAddresses from "@/addresses/11155111.json";
-import { TroveNFT } from "@/abi/TroveNFT";
-import { useAccount } from "wagmi";
+import { useTokenIdsAlchemy } from "@/hooks/useTokenIdsAlchemy";
+import { TroveManager } from "@/abi/TroveManager";
+import { Trove } from "@/types/borrow";
 
-export default function useTroveState() {
-  const { address } = useAccount();
+export default function useTroveState(): { troves: (Trove | null)[] } {
+  const { tokenIds } = useTokenIdsAlchemy();
 
-  const { data: troveNFTBalance } = useReadContract({
-    address: contractAddresses.branches[0].troveNFT as `0x${string}`,
-    abi: TroveNFT,
-    functionName: "balanceOf",
-    args: address ? [address] : undefined,
+  const { data: troveInfo } = useReadContracts({
+    contracts: tokenIds.map(id => ({
+      address: contractAddresses.branches[0].troveManager as `0x${string}`,
+      abi: TroveManager,
+      functionName: "Troves",
+      args: [BigInt(id)],
+    })),
   });
 
-  const troves = troveNFTBalance ? Array.from({ length: Number(troveNFTBalance) }) : [];
+  const troves = troveInfo?.map(d => {
+    if (!d.result || !Array.isArray(d.result)) return null;
+    const [
+      debt,
+      coll,
+      stake,
+      status,
+      arrayIndex,
+      lastDebtUpdateTime,
+      lastInterestRateAdjTime,
+      annualInterestRate,
+      interestBatchManager,
+      batchDebtShares,
+    ] = d.result;
+    return {
+      debt,
+      coll,
+      stake,
+      status,
+      arrayIndex,
+      lastDebtUpdateTime,
+      lastInterestRateAdjTime,
+      annualInterestRate,
+      interestBatchManager,
+      batchDebtShares,
+    };
+  }) || [];
 
-  return { state: { troves, troveNFTBalance } };
+  return { troves };
 }
 
 // TODO: Make a array with all the data of each trove.
