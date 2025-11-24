@@ -4,7 +4,7 @@ import contractAddresses_1 from "@/addresses/1.json";
 import contractAddresses_11155111 from "@/addresses/11155111.json";
 import { useTokenIdsAlchemy } from "@/hooks/useTokenIdsAlchemy";
 import { TroveManager } from "@/abi/TroveManager";
-import { Trove } from "@/types/borrow";
+import { Trove, TroveTuple } from "@/types/borrow";
 
 export default function useTroveState(): { troves: (Trove | null)[] } {
   const { chainId } = useAccount();  
@@ -22,10 +22,8 @@ export default function useTroveState(): { troves: (Trove | null)[] } {
     ),
   });
 
-  console.log(troveInfo)
-
-  const troves = tokenIds.map((_, i) => {
-    const start = i * currentNetworkContract.branches.length;
+  const troves = tokenIds.map((_, index) => {
+    const start = index * currentNetworkContract.branches.length;
     const end = start + currentNetworkContract.branches.length;
     const results = troveInfo?.slice(start, end) || [];
     const validResult = results.find(d => d.result && Array.isArray(d.result));
@@ -41,7 +39,7 @@ export default function useTroveState(): { troves: (Trove | null)[] } {
       annualInterestRate,
       interestBatchManager,
       batchDebtShares,
-    ] = (validResult.result as unknown) as any[];
+    ] = (validResult.result as unknown) as TroveTuple;
     return {
       debt,
       coll,
@@ -62,4 +60,5 @@ export default function useTroveState(): { troves: (Trove | null)[] } {
 // TODO: Make a array with all the data of each trove.
 // The first element [0] will contain a event handler with a redirection to the /borrow route.
 // First element [0] will be like "open trove" or something.
+
 
