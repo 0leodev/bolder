@@ -43,4 +43,5 @@ export interface Trove {
   annualInterestRate: bigint;
   interestBatchManager: `0x${string}`;
   batchDebtShares: bigint;
+  collateralSymbol: string;
 }

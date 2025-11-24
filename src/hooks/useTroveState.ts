@@ -26,39 +26,39 @@ export default function useTroveState(): { troves: (Trove | null)[] } {
     const start = index * currentNetworkContract.branches.length;
     const end = start + currentNetworkContract.branches.length;
     const results = troveInfo?.slice(start, end) || [];
-    const validResult = results.find(d => d.result && Array.isArray(d.result));
-    if (!validResult?.result) return null;
-    const [
-      debt,
-      coll,
-      stake,
-      status,
-      arrayIndex,
-      lastDebtUpdateTime,
-      lastInterestRateAdjTime,
-      annualInterestRate,
-      interestBatchManager,
-      batchDebtShares,
-    ] = (validResult.result as unknown) as TroveTuple;
-    return {
-      debt,
-      coll,
-      stake,
-      status,
-      arrayIndex,
-      lastDebtUpdateTime,
-      lastInterestRateAdjTime,
-      annualInterestRate,
-      interestBatchManager,
-      batchDebtShares,
-    };
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      if (result.result && Array.isArray(result.result)) {
+        const [
+          debt,
+          coll,
+          stake,
+          status,
+          arrayIndex,
+          lastDebtUpdateTime,
+          lastInterestRateAdjTime,
+          annualInterestRate,
+          interestBatchManager,
+          batchDebtShares,
+        ] = (result.result as unknown) as TroveTuple;
+        const branch = currentNetworkContract.branches[i];
+        return {
+          debt,
+          coll,
+          stake,
+          status,
+          arrayIndex,
+          lastDebtUpdateTime,
+          lastInterestRateAdjTime,
+          annualInterestRate,
+          interestBatchManager,
+          batchDebtShares,
+          collateralSymbol: branch.collSymbol,
+        };
+      }
+    }
+    return null;
   });
 
   return { troves };
 }
-
-// TODO: Make a array with all the data of each trove.
-// The first element [0] will contain a event handler with a redirection to the /borrow route.
-// First element [0] will be like "open trove" or something.
-
-
