@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export interface PriceFeeds {
-  ETH: number;
+  WETH: number;
   wstETH: number;
   rETH: number;
 }
@@ -10,7 +10,7 @@ const twoDigits = (num: number) => parseFloat(num.toFixed(2));
 
 export function usePriceFeeds(): PriceFeeds {
   const [prices, setPrices] = useState<PriceFeeds>({
-    ETH: 0.00,
+    WETH: 0.00,
     wstETH: 0.00,
     rETH: 0.00,
   });
@@ -23,7 +23,7 @@ export function usePriceFeeds(): PriceFeeds {
         const data = await response.json();
 
         setPrices({
-          ETH: twoDigits(data.ethereum?.usd),
+          WETH: twoDigits(data.ethereum?.usd),
           wstETH: twoDigits(data['wrapped-steth']?.usd),
           rETH: twoDigits(data['rocket-pool-eth']?.usd),
         });

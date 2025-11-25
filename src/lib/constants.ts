@@ -2,7 +2,7 @@ import type { CollateralType } from "@/types/borrow";
 
 export const COLLATERAL_TYPES: CollateralType[] = [
   {
-    symbol: "ETH",
+    symbol: "WETH",
     ltvMax: 90.91,
     icon: "🔷",
   },

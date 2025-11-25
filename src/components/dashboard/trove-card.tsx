@@ -4,6 +4,7 @@ import { Copy } from "lucide-react";
 import { copiedToClipboard } from "@/lib/sonner-notifications";
 import { Trove } from "@/types/borrow";
 import { removeDigits, truncateWithDots } from "@/utils/format"
+import BorrowCalculations from "@/lib/borrow-calculations"
 
 const Shimmer = ({ className = "" }: { className?: string }) => (
   <div className={`bg-white/5 loading-shimmer ${className}`} />

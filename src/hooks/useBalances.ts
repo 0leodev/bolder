@@ -4,7 +4,7 @@ import { formatUnits } from "viem";
 const residualEth = 0.1; // residue (avoid using all the ETH)
 
 interface CollateralBalances {
-  ETH: number;
+  WETH: number;
   wstETH: number;
   rETH: number;
 }
@@ -17,7 +17,7 @@ export function useCollateralBalances(): CollateralBalances {
   const ethBalance = ethParsed > residualEth ? ethParsed - residualEth : 0;
 
   const balances: CollateralBalances = {
-    ETH: parseFloat(ethBalance.toFixed(3)),
+    WETH: parseFloat(ethBalance.toFixed(3)),
     wstETH: 8.3,
     rETH: 5.7,
   };

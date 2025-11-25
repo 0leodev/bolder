@@ -1,5 +1,5 @@
 export interface CollateralType {
-  symbol: "ETH" | "wstETH" | "rETH";
+  symbol: "WETH" | "wstETH" | "rETH";
   ltvMax: number;
   icon: string;
 }
