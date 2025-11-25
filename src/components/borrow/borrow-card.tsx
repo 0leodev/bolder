@@ -7,7 +7,7 @@ import { InputField } from "@/components/inputField"
 import { Button } from "@/components/ui/button"
 import { CollateralSelector } from "@/components/borrow/collateralSelector"
 import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
-import { formatNumber } from "@/utils/format"
+import { metricNumber } from "@/utils/format"
 import { InterestRateSlider } from "@/components/borrow/interestRateSlider"
 import { StatsDisplay } from "@/components/borrow/statsDisplay"
 import { AlertCircle } from "lucide-react"
@@ -87,7 +87,7 @@ export default function BorrowCard() {
                   size="sm"
                   className="text-xs px-2 h-6 font-bolde"
                 >
-                  {emoji} {formatNumber(amount)}
+                  {emoji} {metricNumber(amount)}
                 </Button>
               ) : null;
             })}
@@ -119,7 +119,7 @@ export default function BorrowCard() {
 
           <div className="flex justify-start mt-5">
             <span className="text-xs text-muted-foreground font-medium">
-              {formatNumber(state.maxBorrowAmount * 0.9)} BOLD
+              {metricNumber(state.maxBorrowAmount * 0.9)} BOLD
             </span>
           </div>
         </div> 
