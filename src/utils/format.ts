@@ -4,11 +4,10 @@ export const metricNumber = (num: number) =>
   num >= 1e3 ? (num / 1e3).toFixed(1) + 'K' :
   num.toFixed(0);
 
-export const removeDigits = (value: bigint | undefined, digits: number) =>
-  (Number(value) / 10 ** digits).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+export const removeDigits = (value: bigint | undefined, digits: number) => {
+  const result = (Number(value) / 10 ** (digits))
+  return parseFloat(result.toFixed(2))
+};
 
 export const truncateWithDots = (toTruncate: string) => {
   if (toTruncate.length <= 10) return toTruncate;
