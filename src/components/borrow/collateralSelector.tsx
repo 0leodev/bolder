@@ -18,7 +18,7 @@ export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSe
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="h-10 px-3 bg-muted/50 border-border/50 hover:bg-muted/50 rounded-xl">
-          <span className="text-base mr-1">{selectedCollateral.icon}</span>
+          <img src={selectedCollateral.icon} className="w-4 h-4 mr-1" />
           <span className="font-bold text-sm">{selectedCollateral.symbol}</span>
           <ChevronDown className="ml-1 h-3 w-3 opacity-50" />
         </Button>
@@ -30,7 +30,7 @@ export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSe
             onClick={() => onSelect(collateral)}
             className="flex items-center m-2 justify-between p-2 bg-muted/10 hover:bg-muted/30 cursor-pointer rounded-md mx-1"
           >
-            <span className="font-semibold text-base">{collateral.icon} {collateral.symbol}</span>
+            <span className="font-semibold text-base"><img src={collateral.icon} className="w-4 h-4 mr-1 inline" /> {collateral.symbol}</span>
             <span className="font-semibold text-sm mr-2">{getCollateralBalance(balances, collateral.symbol).toFixed(3)}</span>
           </DropdownMenuItem>
         ))}

@@ -4,17 +4,17 @@ export const COLLATERAL_TYPES: CollateralType[] = [
   {
     symbol: "WETH",
     ltvMax: 90.91,
-    icon: "🔷",
+    icon: "/logos/WETH.svg",
   },
   {
     symbol: "wstETH",
     ltvMax: 83.33,
-    icon: "💠",
+    icon: "/logos/wstETH.svg",
   },
   {
     symbol: "rETH",
     ltvMax: 83.33,
-    icon: "🔶",
+    icon: "/logos/rETH.svg",
   },
 ];
 

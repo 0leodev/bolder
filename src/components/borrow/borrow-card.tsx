@@ -112,7 +112,8 @@ export default function BorrowCard() {
                 }
               />
                 </div>
-            <div className="flex items-center justify-center bg-navigation border border-border rounded-xl px-4 min-w-[100px] h-10">
+            <div className="flex items-center justify-between bg-navigation border border-border rounded-xl px-4 min-w-[100px] h-10">
+              <img src="/logos/BOLD.svg" className="w-4 h-4" />
               <span className="text-sm font-bold">BOLD</span>
             </div>
           </div>

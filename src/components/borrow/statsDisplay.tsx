@@ -2,6 +2,7 @@
 
 import { usePriceFeeds } from "@/hooks/usePriceFeeds"
 import type { CollateralType } from "@/types/borrow"
+import { currencyString } from "@/utils/format"
 
 interface StatsDisplayProps {
   collateralType: CollateralType
@@ -34,7 +35,7 @@ export function StatsDisplay({
           <div className="text-xs text-muted-foreground/70 mb-1">Liquidation Price</div>
           <div className="text-sm font-medium truncate">
           <div className="text-sm font-medium truncate">
-            ${liquidationPrice > 0 ? liquidationPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0.00"}</div>     
+            ${liquidationPrice > 0 ? currencyString(liquidationPrice) : "0.00"}</div>     
           </div>
         </div>
       </div>
