@@ -32,11 +32,11 @@ body {
 
 /*-------------------- coolest theme --------------------*/
 
-/* .darkest {
-  --background: oklch(0.145 0 0);
+/* :root {
+  --background: radial-gradient(circle, oklch(17.374% 0.03297 225.154), oklch(10.663% 0.03005 149.07));
   --foreground: oklch(0.985 0 0);
   --navigation: oklch(0% 0 0 / 0.149);
-  --card: oklch(0.145 0 0);
+  --card: oklch(14.479% 0.00002 271.152 / 0.551);
   --button: oklch(28.094% 0.00003 271.152);
   --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
@@ -44,11 +44,11 @@ body {
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(21.342% 0.00002 271.152 / 0.768);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
+  --destructive: oklch(69.142% 0.19836 22.872);
   --destructive-foreground: oklch(0.637 0.237 25.331);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
@@ -88,7 +88,8 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    background: var(--background);
+    @apply text-foreground;
   }
 }
 

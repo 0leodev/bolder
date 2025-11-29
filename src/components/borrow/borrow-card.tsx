@@ -7,10 +7,11 @@ import { InputField } from "@/components/inputField"
 import { Button } from "@/components/ui/button"
 import { CollateralSelector } from "@/components/borrow/collateralSelector"
 import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
-import { metricNumber } from "@/utils/format"
+import { metricNumber, currencyString } from "@/utils/format"
 import { InterestRateSlider } from "@/components/borrow/interestRateSlider"
 import { StatsDisplay } from "@/components/borrow/statsDisplay"
 import { AlertCircle } from "lucide-react"
+import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 
 const boldOptions = [
   { percent: 0.2, emoji: '🟢' },
@@ -22,6 +23,7 @@ export default function BorrowCard() {
   const { state, errors, actions } = useBorrowState()
   const balances = useCollateralBalances()
   const handleBorrow = useHandleBorrow(actions.validateInputs, state)
+  const prices = usePriceFeeds();
 
   const getFieldError = (field: string) => {
     return errors.find((error) => error.field === field)?.message
@@ -40,23 +42,13 @@ export default function BorrowCard() {
         <div className="bg-card rounded-2xl p-4 border border-border" data-box="COLLATERAL BOX">
           <span className="text-lg font-medium text-muted-foreground text-white/70">Collateral</span>
 
-          <div className="mt-5 flex gap-2">
+          <div className="mt-3 flex gap-2">
             <div className="flex-1">   
             <InputField
               value={state.collateralAmount}
               onChange={actions.updateCollateralAmount}
               placeholder="0.00"
               error={getFieldError("collateral")}
-              prClass={"pr-15"}
-              suffix2={
-                <Button
-                  onClick={actions.updateMaxCollateral}
-                  className="px-2 text-xs h-6 font-bold"
-                  variant="ghost"
-                >
-                  MAX
-                </Button>
-              }
             />
             </div> 
             <CollateralSelector
@@ -65,10 +57,22 @@ export default function BorrowCard() {
             />
           </div>
 
-          <div className="flex justify-start mt-5">
-            <span className="text-xs text-muted-foreground font-medium">
-              {getCollateralBalance(balances, state.selectedCollateral.symbol).toFixed(3)} {state.selectedCollateral.symbol}
-            </span>
+          <div className="flex justify-between gap-3 items-center mt-5">
+              <span className="text-xs text-muted-foreground font-medium">
+                ${currencyString(prices[state.selectedCollateral.symbol] * Number(state.collateralAmount))}
+              </span>
+            <div className="flex justify-end gap-3 items-center">
+              <span className="text-xs text-muted-foreground font-medium">
+                {getCollateralBalance(balances, state.selectedCollateral.symbol).toFixed(3)} {state.selectedCollateral.symbol}
+              </span>
+              <Button
+                onClick={actions.updateMaxCollateral}
+                className="bg-muted px-2 text-muted-foreground text-xs h-6 font-bold"
+                variant="ghost"
+              >
+                MAX
+              </Button>
+            </div>
           </div>
         </div>      
 
@@ -93,36 +97,40 @@ export default function BorrowCard() {
             })}
           </div>
 
-          <div className="mt-3 flex gap-2">
-              <div className="flex-1">
+          <div className="mt-1 flex gap-2">
+            <div className="flex-1">
               <InputField
                 value={state.borrowAmount}
                 onChange={actions.updateBorrowAmount}
-                placeholder="Minimum 2000"
+                placeholder="Min 2000"
                 error={getFieldError("borrow")}
-                prClass={"pr-15"}
-                suffix2={
-                  <Button
-                    onClick={actions.updateMaxBorrowAmount}
-                    className="px-2 text-xs h-6 font-bold"
-                    variant="ghost"
-                  >
-                    MAX
-                  </Button>
-                }
               />
-                </div>
-            <div className="flex items-center justify-between bg-navigation border border-border rounded-xl px-4 min-w-[100px] h-10">
-              <img src="/logos/BOLD.svg" className="w-4 h-4" />
-              <span className="text-sm font-bold">BOLD</span>
+            </div>
+
+            <div className="h-12 flex items-center justify-center gap-2 bg-navigation border border-border rounded-[40px] px-5">
+              <img src="/logos/BOLD.svg" className="w-6 h-6" />
+              <span className="font-bold text-lg">BOLD</span>
+            </div>
+          </div>
+        
+          <div className="flex justify-between gap-3 items-center mt-5">
+              <span className="text-xs text-muted-foreground font-medium">
+                ${currencyString(Number(state.borrowAmount))}
+              </span>
+            <div className="flex justify-end gap-3 items-center">
+              <span className="text-xs text-muted-foreground font-medium">
+                {metricNumber(state.maxBorrowAmount * 0.9)} BOLD
+              </span>
+              <Button
+                onClick={actions.updateMaxBorrowAmount}
+                className="bg-muted px-2 text-muted-foreground text-xs h-6 font-bold"
+                variant="ghost"
+              >
+                MAX
+              </Button>
             </div>
           </div>
 
-          <div className="flex justify-start mt-5">
-            <span className="text-xs text-muted-foreground font-medium">
-              {metricNumber(state.maxBorrowAmount * 0.9)} BOLD
-            </span>
-          </div>
         </div> 
 
             {/* INTEREST RATE SLIDER */}
@@ -172,3 +180,4 @@ export default function BorrowCard() {
     </main>
   )
 }
+

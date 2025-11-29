@@ -17,10 +17,12 @@ export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSe
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="h-10 px-3 bg-muted/50 border-border/50 hover:bg-muted/50 rounded-xl">
-          <img src={selectedCollateral.icon} className="w-4 h-4 mr-1" />
-          <span className="font-bold text-sm">{selectedCollateral.symbol}</span>
-          <ChevronDown className="ml-1 h-3 w-3 opacity-50" />
+        <Button variant="outline" className="h-12 rounded-[40px] focus-visible:ring-0 hover:bg-muted/50">
+        <div className="flex justify-between gap-2 border-border/50 rounded-[40px] items-center">
+          <img src={selectedCollateral.icon} className="w-6 h-6" />
+          <span className="font-bold text-lg">{selectedCollateral.symbol}</span>
+          <ChevronDown className="h-3 w-3 opacity-70" />
+        </div>  
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-60 mr-6 bg-card/10 backdrop-blur-lg border-border/50 rounded-xl">

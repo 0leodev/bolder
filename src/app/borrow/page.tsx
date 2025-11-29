@@ -16,7 +16,7 @@ export default function BorrowPage() {
           }}
           className="text-4xl font-bold text-center text-foreground mb-7"
         >
-          Make it bolder
+          Make it BOLDER
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 100 }}

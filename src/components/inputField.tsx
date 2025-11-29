@@ -33,7 +33,7 @@ export function InputField({ value, onChange, placeholder, error, suffix, suffix
           }}
           placeholder={placeholder}
           className={cn(
-            "h-10 bg-muted/30 border-border/50 text-base font-medium rounded-xl placeholder:text-muted-foreground/50",
+            "h-12 bg-card selection:bg-white text-[1.8rem] md:text-[1.8rem] lg:text-[1.8rem] font-medium rounded-xl placeholder:text-muted-foreground/50 focus-visible:ring-0",
             prClass,
             error && "border-destructive/50",
           )}

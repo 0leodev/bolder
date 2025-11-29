@@ -52,10 +52,10 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
             min={MIN_INTEREST_RATE}
             max={MAX_INTEREST_RATE}
             step={0.1}
-            className="w-20 h-7 text-xs text-center border-border/50 focus:border-primary [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] font-medium"
+            className="w-auto h-auto border rounded-xl text-[1.5rem] md:text-[1.5rem] lg:text-[1.5rem] text-center border-border/50 focus-visible:ring-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield] font-medium"
             placeholder={value.toFixed(2)}
           />
-          <span className="text-sm font-medium">%</span>
+          <span className="font-medium text-[1.5rem] md:text-[1.5rem] lg:text-[1.5rem]">%</span>
         </div>
       </div>
 
