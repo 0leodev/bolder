@@ -169,12 +169,14 @@ export default function BorrowCard() {
             )}
 
             {/* SUBMIT TX */}
-            <Button
-              onClick={handleBorrow}
-              className="w-full h-11 text-base font-bold bg-primary/90 text-primary-foreground hover:bg-primary/60 rounded-xl"
-            >
-              Borrow BOLD
-            </Button>
+            <div className="bg-custom-dark p-3 rounded-[40px]"> 
+              <Button
+                onClick={handleBorrow}
+                className="w-full h-15 text-2xl font-bold bg-primary/60 text-primary-foreground hover:bg-primary/90 rounded-[40px]"
+              >
+                Borrow BOLD
+              </Button>
+            </div>
           </>
         )}
 
