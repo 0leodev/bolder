@@ -11,7 +11,7 @@ import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 const Shimmer = ({ className = "" }: { className?: string }) => <div className={`bg-white/5 loading-shimmer ${className}`} />;
 
 const StatRow = ({ label, value, svg }: { label: string; value: string; svg?: string }) => (
-  <div className="flex justify-between gap-2 text-md font-medium bg-muted px-4 h-12 rounded-lg items-center">
+  <div className="flex justify-between gap-2 text-md font-medium bg-card px-4 h-12 rounded-lg items-center">
     <span className="truncate text-muted-foreground">{label}</span>
     <div className="flex justify-between gap-2 bg-card px-3 h-8 rounded-2xl items-center">
       {svg && <img src={`${svg}`} className="w-4 h-4" />}
@@ -34,7 +34,7 @@ const TroveItem = ({ tokenId, trove }: { tokenId: string; trove?: Trove | null }
   const dropPercentNum = currentPriceNum > 0 ? (liquidationPriceNum > 0 ? (((currentPriceNum - liquidationPriceNum) / currentPriceNum) * 100).toFixed(0) : "N/A") : null;
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-4 h-88">
+    <div className="rounded-2xl bg-navigation p-4 h-88">
       <div className="font-semibold mb-4">Loan Bolding</div>
       <div className="space-y-2">
         {trove ? (
@@ -48,7 +48,7 @@ const TroveItem = ({ tokenId, trove }: { tokenId: string; trove?: Trove | null }
           Array.from({ length: 4 }, (_, i) => <Shimmer key={i} className="px-4 h-12 rounded-lg" />)
         )}
       </div>
-      <div className="flex justify-between gap-2 mt-2 text-md font-medium bg-muted px-4 h-12 rounded-lg items-center">
+      <div className="flex justify-between gap-2 mt-2 text-md font-medium bg-card px-4 h-12 rounded-lg items-center">
         <div className="truncate">
           <button onClick={() => copiedToClipboard(tokenId)} className="mr-3 text-muted-foreground hover:text-foreground transition-colors">
             <Copy size={16} />
@@ -71,7 +71,7 @@ export default function TroveCard() {
     return (
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }, (_, i) => (
-          <Shimmer key={i} className="h-88 rounded-2xl border border-border" />
+          <Shimmer key={i} className="h-88 rounded-2xl" />
         ))}
       </div>
     );

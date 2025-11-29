@@ -14,7 +14,7 @@ export default function BorrowPage() {
             duration: 0.4,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="text-5xl font-bold text-center text-foreground mb-7"
+          className="text-4xl md:text-5xl font-bold text-center text-foreground mb-7"
         >
           Make it BOLDER
         </motion.h1>

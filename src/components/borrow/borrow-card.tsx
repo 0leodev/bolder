@@ -40,7 +40,7 @@ export default function BorrowCard() {
 
 {/*----------------------------- COLLATERAL BOX ------------------------*/}   
       <div className="bg-custom-dark p-3 space-y-3 rounded-[25px]">     
-        <div className="bg-card rounded-2xl p-4 border border-border hover:bg-navigation duration-300" data-box="COLLATERAL BOX">
+        <div className="bg-card rounded-2xl p-4 hover:bg-navigation duration-300" data-box="COLLATERAL BOX">
           <span className="text-lg font-medium text-muted-foreground text-white/70">Collateral</span>
 
           <div className="mt-3 flex gap-2">
@@ -78,7 +78,7 @@ export default function BorrowCard() {
         </div>      
 
 {/*----------------------------- BORROW BOX ------------------------*/}  
-        <div className="bg-card rounded-2xl p-4 border border-border hover:bg-navigation duration-300" data-box="BORROW BOX">
+        <div className="bg-card rounded-2xl p-4 hover:bg-navigation duration-300" data-box="BORROW BOX">
           <span className="text-lg font-medium text-muted-foreground text-white/70">Borrow</span>
 
           <div className="mt-2 flex gap-1">
@@ -108,7 +108,7 @@ export default function BorrowCard() {
               />
             </div>
 
-            <div className="h-12 flex items-center justify-center gap-2 bg-navigation border border-border rounded-[40px] px-5">
+            <div className="h-12 flex items-center justify-center gap-2 bg-navigation rounded-[40px] px-5">
               <img src="/logos/BOLD.svg" className="w-6 h-6" />
               <span className="font-bold text-lg">BOLD</span>
             </div>
@@ -135,7 +135,7 @@ export default function BorrowCard() {
       </div> 
 
             {/* INTEREST RATE SLIDER */}
-            <div className="bg-card rounded-2xl p-4 border border-border hover:bg-navigation duration-300">
+            <div className="bg-card rounded-2xl p-4 hover:bg-navigation duration-300">
               <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />
             </div>
 

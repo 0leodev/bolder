@@ -26,7 +26,7 @@ export function StatsDisplay({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.5,
@@ -36,13 +36,13 @@ export function StatsDisplay({
     >
       <div className="bg-custom-dark p-3 space-y-3 rounded-[25px]"> 
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-muted/20 rounded-xl p-3 border border-border/90">
-            <div className="text-xs text-muted-foreground/70 mb-1">Current Price</div>
+          <div className="bg-muted/30 rounded-xl p-4">
+            <div className="text-xs text-muted-foreground/80 mb-1">Current Price</div>
             <div className="text-sm font-medium">${currentPrice.toLocaleString()}</div>
           </div>
 
-          <div className="bg-muted/20 rounded-xl p-3 border border-border/90">
-            <div className="text-xs text-muted-foreground/70 mb-1">Liquidation Price</div>
+          <div className="bg-muted/30 rounded-xl p-4">
+            <div className="text-xs text-muted-foreground/80 mb-1">Liquidation Price</div>
             <div className="text-sm font-medium truncate">
             <div className="text-sm font-medium truncate">
               ${liquidationPrice > 0 ? currencyString(liquidationPrice) : "0.00"}</div>     
@@ -50,9 +50,9 @@ export function StatsDisplay({
           </div>
         </div>
 
-        <div className="bg-muted/20 rounded-xl p-3 border border-border/90">
+        <div className="bg-muted/30 rounded-xl p-4">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-xs text-muted-foreground/70">LTV Ratio</span>
+            <span className="text-xs text-muted-foreground/80">LTV Ratio</span>
             <span className="text-sm font-medium"> 
               {currentLTV < maxLTV ? `${currentLTV}%` : `>${maxLTV}%`} / {maxLTV}%
             </span>
@@ -65,8 +65,8 @@ export function StatsDisplay({
           </div>
         </div>
 
-        <div className="bg-muted/20 rounded-xl p-3 border border-border/90">
-          <div className="text-xs text-muted-foreground/70 mb-1">Interest Cost/Year</div>
+        <div className="bg-muted/30 rounded-xl p-4">
+          <div className="text-xs text-muted-foreground/80 mb-1">Interest Cost/Year</div>
           <div className="text-sm font-medium">{interestCost.toLocaleString()} BOLD</div>
         </div>
       </div>
