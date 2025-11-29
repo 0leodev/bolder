@@ -6,7 +6,7 @@ import BorrowCard from "@/components/borrow/borrow-card"
 export default function BorrowPage() {
   return (
     <main className="min-h-screen bg-background py-15">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-3">
         <motion.h1
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 0.1, y: 0 }}
@@ -14,7 +14,7 @@ export default function BorrowPage() {
             duration: 0.4,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className="text-4xl font-bold text-center text-foreground mb-7"
+          className="text-5xl font-bold text-center text-foreground mb-7"
         >
           Make it BOLDER
         </motion.h1>

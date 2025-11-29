@@ -34,9 +34,9 @@ body {
 /*-------------------- coolest theme --------------------*/
 
 /* :root {
-  --background: radial-gradient(circle, oklch(17.374% 0.03297 225.154), oklch(10.663% 0.03005 149.07));
+  --background: radial-gradient(circle, oklch(24.091% 0.04967 232.851), oklch(10.663% 0.03005 149.07));
   --foreground: oklch(0.985 0 0);
-  --navigation: oklch(0% 0 0 / 0.427);
+  --navigation: oklch(0% 0 0 / 0.608);
   --card: oklch(14.479% 0.00002 271.152 / 0.551);
   --button: oklch(28.094% 0.00003 271.152);
   --popover: oklch(0.145 0 0);
@@ -45,7 +45,7 @@ body {
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(21.342% 0.00002 271.152 / 0.768);
+  --muted: oklch(24.776% 0.00003 271.152 / 0.768);
   --muted-foreground: oklch(0.708 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
@@ -55,7 +55,7 @@ body {
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
   --radius: 0.625rem;
-  --custom-dark: rgb(15, 15, 15);
+  --custom-dark: rgba(0, 0, 0, 0.319);
 } */
 
 @theme inline {
