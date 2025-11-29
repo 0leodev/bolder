@@ -35,10 +35,11 @@ export default function BorrowCard() {
   )
 
   return (
-    <main className="max-w-lg mx-auto space-y-6">
+    <main className="max-w-lg mx-auto">
       <div className="space-y-6">
 
-{/*----------------------------- COLLATERAL BOX ------------------------*/}        
+{/*----------------------------- COLLATERAL BOX ------------------------*/}   
+      <div className="bg-custom-dark p-3 space-y-3 rounded-[25px]">     
         <div className="bg-card rounded-2xl p-4 border border-border hover:bg-navigation duration-300" data-box="COLLATERAL BOX">
           <span className="text-lg font-medium text-muted-foreground text-white/70">Collateral</span>
 
@@ -131,12 +132,14 @@ export default function BorrowCard() {
             </div>
           </div>
 
-        </div> 
+      </div> 
 
             {/* INTEREST RATE SLIDER */}
             <div className="bg-card rounded-2xl p-4 border border-border hover:bg-navigation duration-300">
               <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />
             </div>
+
+        </div>
 
         {parseFloat(state.collateralAmount) > 0 && parseFloat(state.borrowAmount) > 0 && (
           <>
@@ -148,7 +151,6 @@ export default function BorrowCard() {
               liquidationPrice={state.liquidationPrice}
               interestCost={interestCost}
             />
-
             {/* ERRORS */}
             {errors.length > 0 && ( 
               <div className="bg-destructive/5 border border-destructive/20 rounded-xl p-3">

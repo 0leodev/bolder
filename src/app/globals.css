@@ -7,7 +7,7 @@ body {
 }
 
 :root {
-  --background: rgb(26, 26, 26);
+  --background: radial-gradient(circle, rgb(33, 33, 33), rgb(21, 21, 21));
   --foreground: oklch(0.92 0 0);
   --navigation: oklch(0% 0 0 / 0.149);
   --card: oklch(0.25 0 0);
@@ -28,6 +28,7 @@ body {
   --input: oklch(0.35 0 0);
   --ring: oklch(0.5 0 0);
   --radius: 0.625rem;
+  --custom-dark: rgba(0, 0, 0, 0.241);
 }
 
 /*-------------------- coolest theme --------------------*/
@@ -54,6 +55,7 @@ body {
   --input: oklch(0.269 0 0);
   --ring: oklch(0.439 0 0);
   --radius: 0.625rem;
+  --custom-dark: rgb(15, 15, 15);
 } */
 
 @theme inline {
@@ -81,6 +83,7 @@ body {
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-custom-dark: var(--custom-dark);
 }
 
 @layer base {
