@@ -15,8 +15,6 @@ interface InputFieldProps {
 }
 
 export function InputField({ value, onChange, placeholder, error, suffix, suffix2, className, prClass }: InputFieldProps) {
-  const hasBothSuffixes = suffix && suffix2;
-  
   return (
     <div className={cn("space-y-1", className)}>
       <div className="relative">

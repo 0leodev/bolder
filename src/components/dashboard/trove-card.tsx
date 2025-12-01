@@ -7,6 +7,7 @@ import { removeDigits, truncateWithDots, currencyString } from "@/utils/format";
 import BorrowCalculations from "@/lib/borrow-calculations";
 import { COLLATERAL_TYPES } from "@/lib/constants";
 import { usePriceFeeds } from "@/hooks/usePriceFeeds";
+import Image from "next/image";
 
 const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
 
@@ -16,7 +17,7 @@ const StatRow = ({ label, value, svg }: { label: string; value: string; svg?: st
   <div className="flex justify-between gap-2 text-md font-medium bg-card px-4 h-12 rounded-lg items-center">
     <span className="truncate text-muted-foreground">{label}</span>
     <div className="flex justify-between gap-2 bg-card px-3 h-8 rounded-2xl items-center">
-      {svg && <img src={`${svg}`} className="w-4 h-4" />}
+      {svg && <Image src={`${svg}`} alt={label} width={20} height={20} />}
       <span className="truncate">{value}</span>
     </div>
   </div>

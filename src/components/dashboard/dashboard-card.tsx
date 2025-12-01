@@ -1,5 +1,6 @@
 import TrovesCard from "@/components/dashboard/trove-card"
 import Link from "next/link";
+import Image from "next/image";
 import { COLLATERAL_TYPES } from "@/lib/constants";
 import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 
@@ -15,10 +16,10 @@ export default function DashboardCard() {
         </Link>
 
         { prices["WETH"] > 0 && (
-        <div className="flex justify-start gap-2 bg-navigation p-3 rounded-[25px] font-medium text-muted-foreground w-fit">
+        <div className="flex justify-start gap-2 bg-navigation p-3 rounded-[25px] font-medium text-lg text-muted-foreground w-fit">
           {COLLATERAL_TYPES.map((coll) => (
-            <div className={`flex justify-center gap-2 bg-card px-5 py-3 rounded-2xl min-w-34 ${coll.symbol !== 'WETH' ? 'hidden md:flex' : ''}`}>
-              <img src={coll.icon} className="w-6 h-6" />
+            <div key={coll.symbol} className={`flex justify-center gap-2 bg-card px-5 py-3 rounded-2xl min-w-34 ${coll.symbol !== 'WETH' ? 'hidden md:flex' : ''}`}>
+              <Image src={coll.icon} alt={coll.symbol} width={24} height={24} />
               <div>{`$${prices[coll.symbol].toLocaleString()}`}</div>
             </div>
           ))}

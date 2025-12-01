@@ -12,6 +12,7 @@ import { InterestRateSlider } from "@/components/borrow/interestRateSlider"
 import { StatsDisplay } from "@/components/borrow/statsDisplay"
 import { AlertCircle } from "lucide-react"
 import { usePriceFeeds } from "@/hooks/usePriceFeeds";
+import Image from "next/image";
 
 const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
 
@@ -113,7 +114,7 @@ export default function BorrowCard() {
             </div>
 
             <div className="h-12 flex items-center justify-center gap-2 bg-navigation rounded-[40px] px-5">
-              <img src="/logos/BOLD.svg" className="w-6 h-6" />
+              <Image src="/logos/BOLD.svg" alt="BOLD" width={24} height={24} />
               <span className="font-bold text-lg">BOLD</span>
             </div>
           </div>

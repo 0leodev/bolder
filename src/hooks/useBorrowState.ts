@@ -46,7 +46,7 @@ export default function useBorrowState() {
     const collateralNum = parseFloat(state.collateralAmount) || 0;
     const maxBorrow = BorrowCalculations.calculateMaxBorrowAmount(collateralNum,state.selectedCollateral, prices);
     setState((prev) => ({ ...prev, borrowAmount: (maxBorrow * 0.9).toFixed(0) }));
-  }, [state.collateralAmount, state.selectedCollateral]);
+  }, [state.collateralAmount, state.selectedCollateral, prices]);
 
   const calculatedValues = useMemo(() => {
     const collateralNum = parseFloat(state.collateralAmount) || 0;
@@ -72,8 +72,8 @@ export default function useBorrowState() {
     );
 
     return { maxBorrowAmount, currentLTV, liquidationPrice }
-    
-  }, [state.collateralAmount, state.borrowAmount, state.selectedCollateral]);
+
+  }, [state.collateralAmount, state.borrowAmount, state.selectedCollateral, prices]);
 
   const validateInputs = useCallback(() => {
     const validationErrors = BorrowCalculations.validateBorrowInputs(
@@ -85,7 +85,7 @@ export default function useBorrowState() {
     );
     setErrors(validationErrors);
     return validationErrors.length === 0;
-  }, [state.collateralAmount, state.borrowAmount, state.selectedCollateral]);
+  }, [state.collateralAmount, state.borrowAmount, state.selectedCollateral, balances, prices]);
 
   return {
     state: {
