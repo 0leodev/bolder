@@ -13,6 +13,8 @@ import { StatsDisplay } from "@/components/borrow/statsDisplay"
 import { AlertCircle } from "lucide-react"
 import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 
+const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
+
 const boldOptions = [
   { percent: 0.2, emoji: '🟢' },
   { percent: 0.4, emoji: '🟡' },
@@ -59,16 +61,18 @@ export default function BorrowCard() {
           </div>
 
           <div className="flex justify-between gap-3 items-center mt-5">
-              <span className="text-xs text-muted-foreground font-medium">
+              <span className="text-sm text-muted-foreground font-medium">
                 ${currencyString(prices[state.selectedCollateral.symbol] * Number(state.collateralAmount))}
               </span>
             <div className="flex justify-end gap-3 items-center">
-              <span className="text-xs text-muted-foreground font-medium">
-                {getCollateralBalance(balances, state.selectedCollateral.symbol).toFixed(3)} {state.selectedCollateral.symbol}
+              <span className="text-sm text-muted-foreground font-medium">
+                {getCollateralBalance(balances, state.selectedCollateral.symbol).toFixed(3)}
+                {" "}
+                {wETHintoETH(state.selectedCollateral.symbol)}
               </span>
               <Button
                 onClick={actions.updateMaxCollateral}
-                className="bg-muted px-2 text-muted-foreground text-xs h-6 font-bold"
+                className="bg-muted px-2 text-muted-foreground text-sm h-6 font-bold"
                 variant="ghost"
               >
                 MAX
@@ -90,7 +94,7 @@ export default function BorrowCard() {
                   onClick={() => actions.updateBorrowAmount(amount.toFixed(0))}
                   variant="outline"
                   size="sm"
-                  className="text-xs px-2 h-6 font-bolde"
+                  className="px-2 h-6 font-bolde"
                 >
                   {emoji} {metricNumber(amount)}
                 </Button>
@@ -115,16 +119,16 @@ export default function BorrowCard() {
           </div>
         
           <div className="flex justify-between gap-3 items-center mt-5">
-              <span className="text-xs text-muted-foreground font-medium">
+              <span className="text-sm text-muted-foreground font-medium">
                 ${currencyString(Number(state.borrowAmount))}
               </span>
             <div className="flex justify-end gap-3 items-center">
-              <span className="text-xs text-muted-foreground font-medium">
+              <span className="text-sm text-muted-foreground font-medium">
                 {metricNumber(state.maxBorrowAmount * 0.9)} BOLD
               </span>
               <Button
                 onClick={actions.updateMaxBorrowAmount}
-                className="bg-muted px-2 text-muted-foreground text-xs h-6 font-bold"
+                className="bg-muted px-2 text-muted-foreground text-sm h-6 font-bold"
                 variant="ghost"
               >
                 MAX
@@ -160,7 +164,7 @@ export default function BorrowCard() {
                 </div>
                 <div className="mt-1 space-y-1">
                   {errors.map((error, index) => (
-                    <div key={index} className="text-xs text-destructive/80 ml-5">
+                    <div key={index} className="text-sm text-destructive/80 ml-5">
                       {error.message}
                     </div>
                   ))}

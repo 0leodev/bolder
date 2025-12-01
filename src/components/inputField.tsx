@@ -35,7 +35,6 @@ export function InputField({ value, onChange, placeholder, error, suffix, suffix
           className={cn(
             "h-12 text-[1.8rem] md:text-[1.8rem] lg:text-[1.8rem] font-medium rounded-xl placeholder:text-muted-foreground/50 focus-visible:ring-0",
             prClass,
-            error && "border-destructive/50",
           )}
         />
         {(suffix || suffix2) && (
@@ -45,7 +44,7 @@ export function InputField({ value, onChange, placeholder, error, suffix, suffix
           </div>
         )}
       </div>
-      {error && <p className="text-xs text-destructive/80 px-1">{error}</p>}
+      {error && <p className="text-sm text-destructive/80">{error}</p>}
     </div>
   )
 }

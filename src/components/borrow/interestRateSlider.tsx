@@ -68,7 +68,7 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
         className="w-full"
       />
 
-      <div className="flex justify-between text-xs text-muted-foreground font-medium">
+      <div className="flex justify-between text-sm text-muted-foreground font-medium">
         <span>{MIN_INTEREST_RATE}%</span>
         <span>Avg {AVG_INTEREST_RATE}%</span>
         <span>{MAX_INTEREST_RATE}%</span>

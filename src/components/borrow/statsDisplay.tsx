@@ -37,23 +37,22 @@ export function StatsDisplay({
       <div className="bg-custom-dark p-3 space-y-3 rounded-[25px]"> 
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-muted/30 rounded-xl p-4">
-            <div className="text-xs text-muted-foreground/80 mb-1">Current Price</div>
-            <div className="text-sm font-medium">${currentPrice.toLocaleString()}</div>
+            <div className="text-sm text-muted-foreground/80 mb-1">Current Price</div>
+            <div className="text-md font-medium">${currentPrice.toLocaleString()}</div>
           </div>
 
           <div className="bg-muted/30 rounded-xl p-4">
-            <div className="text-xs text-muted-foreground/80 mb-1">Liquidation Price</div>
-            <div className="text-sm font-medium truncate">
-            <div className="text-sm font-medium truncate">
-              ${liquidationPrice > 0 ? currencyString(liquidationPrice) : "0.00"}</div>     
+            <div className="text-sm text-muted-foreground/80 mb-1">Liquidation Price</div>
+            <div className="text-md font-medium truncate">
+              ${liquidationPrice > 0 ? currencyString(liquidationPrice) : "0.00"}    
             </div>
           </div>
         </div>
 
         <div className="bg-muted/30 rounded-xl p-4">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-xs text-muted-foreground/80">LTV Ratio</span>
-            <span className="text-sm font-medium"> 
+            <span className="text-sm text-muted-foreground/80">LTV Ratio</span>
+            <span className="text-md font-medium"> 
               {currentLTV < maxLTV ? `${currentLTV}%` : `>${maxLTV}%`} / {maxLTV}%
             </span>
           </div>
@@ -66,8 +65,8 @@ export function StatsDisplay({
         </div>
 
         <div className="bg-muted/30 rounded-xl p-4">
-          <div className="text-xs text-muted-foreground/80 mb-1">Interest Cost/Year</div>
-          <div className="text-sm font-medium">{interestCost.toLocaleString()} BOLD</div>
+          <div className="text-sm text-muted-foreground/80 mb-1">Interest Cost/Year</div>
+          <div className="text-md font-medium">{interestCost.toLocaleString()} BOLD</div>
         </div>
       </div>
     </motion.div>

@@ -8,7 +8,7 @@ import BorrowCalculations from "@/lib/borrow-calculations";
 import { COLLATERAL_TYPES } from "@/lib/constants";
 import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 
-const collSymbol = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
+const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
 
 const Shimmer = ({ className = "" }: { className?: string }) => <div className={`bg-white/5 loading-shimmer ${className}`} />;
 
@@ -42,7 +42,7 @@ const TroveItem = ({ tokenId, trove }: { tokenId: string; trove?: Trove | null }
         {trove ? (
           <>
             <StatRow label="Debt" value={`${currencyString(debtNum)} BOLD `} svg="/logos/BOLD.svg" />
-            <StatRow label="Collateral" value={`${collNum} ${collSymbol(trove.collateralSymbol)}`} svg={`/logos/${trove.collateralSymbol}.svg`} />
+            <StatRow label="Collateral" value={`${collNum} ${wETHintoETH(trove.collateralSymbol)}`} svg={`/logos/${trove.collateralSymbol}.svg`} />
             <StatRow label="Liquidation price" value={`$${currencyString(liquidationPriceNum)} ${dropPercentNum ? ` /🔻${dropPercentNum}%` : ""}`} />
             <StatRow label="Annual interest" value={`${interestNum}%`} />
           </>
