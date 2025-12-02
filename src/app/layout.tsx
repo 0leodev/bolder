@@ -2,6 +2,7 @@ import "./globals.css";
 import WalletProviders from "@/providers/WalletProviders";
 import { Navigation } from "@/components/navigation";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "@/components/footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -20,11 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="color-scheme" content="dark" />
       </head>
-      <body>
+      <body className="relative">
         <WalletProviders>
           <Navigation />
-          <div className="pt-10">{children}</div>
+          <div className="pt-10 pb-25 flex-grow">{children}</div>
         </WalletProviders>
+        <Footer />
         <Toaster />
       </body>
     </html>
