@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   keywords: "borrow, bold, dapp, bolder, eth, wsteth, reth",
   authors: [{ name: "leo.dev" }],
   icons: {
-    icon: "/logos/BOLDER.svg",
+    icon: "/favicon.ico",
   },
 };
 
