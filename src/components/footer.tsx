@@ -12,7 +12,7 @@ export default function Footer() {
   ]
   return(
     <footer className="bg-navigation absolute bottom-0 left-0 right-0">
-      <main className="p-10">
+      <main className="p-10 mx-auto max-w-7xl">
         <div className="flex justify-between items-center">
           <div className="w-17 flex justify-start items-center gap-4">
             {socialLinks.map((link, index) => (
@@ -25,16 +25,12 @@ export default function Footer() {
           { prices["WETH"] > 0 && (
           <div className="flex justify-start gap-2 rounded-[25px] font-medium text-lg text-muted-foreground w-fit">
             {COLLATERAL_TYPES.map((coll) => (
-              <div key={coll.symbol} className={`flex justify-center gap-2 bg-card px-5 py-3 rounded-2xl min-w-34 ${coll.symbol !== 'WETH' ? 'hidden lg:flex' : ''}`}>
+              <div key={coll.symbol} className={`flex justify-center gap-2 bg-card px-5 py-3 rounded-2xl min-w-34 ${coll.symbol !== 'WETH' ? 'hidden md:flex' : ''}`}>
                 <Image src={coll.icon} alt={coll.symbol} width={24} height={24} />
                 <div>{`$${prices[coll.symbol].toLocaleString()}`}</div>
               </div>
             ))}
           </div>)}
-
-          <div className="w-17 flex justify-end hidden sm:flex">
-            <Image src="/logos/BOLDER.svg" alt="BOLDER" width={50} height={50} />
-          </div>
         </div>
       </main>        
     </footer>
