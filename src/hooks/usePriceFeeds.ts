@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { coingecko } from '@/config/env';
 
 export interface PriceFeeds {
   WETH: number;
@@ -18,7 +19,7 @@ export function usePriceFeeds(): PriceFeeds {
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum,wrapped-steth,rocket-pool-eth&vs_currencies=usd';
+        const url = `https://api.coingecko.com/api/v3/simple/price?ids=ethereum,wrapped-steth,rocket-pool-eth&vs_currencies=usd&x_cg_demo_api_key=${coingecko.API_KEY}`;
         const response = await fetch(url);
         const data = await response.json();
 
