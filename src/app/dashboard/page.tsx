@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import DashboardCard from "@/components/dashboard/dashboard-card";
+import { useAccount } from "wagmi";
 
 export default function DashboardPage() {
+  const { isConnected } = useAccount();
   return (
     <main className="min-h-screen bg-background py-15">
       <div className="container mx-auto max-w-7xl px-4">
@@ -29,11 +31,10 @@ export default function DashboardPage() {
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            <DashboardCard />
+          {isConnected && (<DashboardCard />)}
           </motion.div>
         </div>
       </div>
     </main>
   );
 }
-
