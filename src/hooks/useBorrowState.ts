@@ -2,11 +2,11 @@ import { useState, useCallback, useMemo } from 'react'
 import { BorrowState, ValidationError } from "@/types/borrow"
 import { COLLATERAL_TYPES, AVG_INTEREST_RATE } from "@/lib/constants"
 import BorrowCalculations from "@/lib/borrow-calculations"
-import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
+import { useAssetBalances } from "@/hooks/useBalances"
 import { usePriceFeeds } from '@/hooks/usePriceFeeds'
 
 export default function useBorrowState() {
-  const balances = useCollateralBalances()
+  const balances = useAssetBalances()
   const prices = usePriceFeeds();
 
   const [state, setState] = useState<BorrowState>({
@@ -38,7 +38,7 @@ export default function useBorrowState() {
   }, []);
 
   const updateMaxCollateral = useCallback(() => {
-    const currentBalance = getCollateralBalance(balances, state.selectedCollateral.symbol)
+    const currentBalance = balances[state.selectedCollateral.symbol]
     setState((prev) => ({...prev, collateralAmount: currentBalance.toString(), }));
   }, [state.selectedCollateral, balances]);
 
@@ -80,7 +80,7 @@ export default function useBorrowState() {
       state.collateralAmount,
       state.borrowAmount,
       state.selectedCollateral,
-      getCollateralBalance(balances, state.selectedCollateral.symbol),
+      balances[state.selectedCollateral.symbol],
       prices
     );
     setErrors(validationErrors);

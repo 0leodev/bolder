@@ -6,7 +6,7 @@ import BorrowCalculations from "@/lib/borrow-calculations"
 import { InputField } from "@/components/inputField"
 import { Button } from "@/components/ui/button"
 import { CollateralSelector } from "@/components/borrow/collateralSelector"
-import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
+import { useAssetBalances } from "@/hooks/useBalances"
 import { metricNumber, currencyString } from "@/utils/format"
 import { InterestRateSlider } from "@/components/borrow/interestRateSlider"
 import { StatsDisplay } from "@/components/borrow/statsDisplay"
@@ -24,7 +24,7 @@ const boldOptions = [
 
 export default function BorrowCard() {
   const { state, errors, actions } = useBorrowState()
-  const balances = useCollateralBalances()
+  const balances = useAssetBalances()
   const handleBorrow = useHandleBorrow(actions.validateInputs, state)
   const prices = usePriceFeeds();
 
@@ -67,7 +67,7 @@ export default function BorrowCard() {
               </span>
             <div className="flex justify-end gap-3 items-center">
               <span className="text-sm text-muted-foreground font-medium">
-                {getCollateralBalance(balances, state.selectedCollateral.symbol).toFixed(3)}
+                {(balances[state.selectedCollateral.symbol]).toFixed(3)}
                 {" "}
                 {wETHintoETH(state.selectedCollateral.symbol)}
               </span>

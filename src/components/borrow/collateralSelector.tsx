@@ -5,7 +5,7 @@ import type { CollateralType } from "@/types/borrow"
 import { COLLATERAL_TYPES } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { useCollateralBalances, getCollateralBalance } from "@/hooks/useBalances"
+import { useAssetBalances } from "@/hooks/useBalances"
 import Image from "next/image";
 
 const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
@@ -16,7 +16,7 @@ interface CollateralSelectorProps {
 }
 
 export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSelectorProps) {
-    const balances = useCollateralBalances()
+    const balances = useAssetBalances()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -42,7 +42,7 @@ export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSe
               {wETHintoETH(collateral.symbol)}
             </span>
             <span className="font-semibold text-sm mr-2">
-              {getCollateralBalance(balances, collateral.symbol).toFixed(3)}
+              {(balances[collateral.symbol]).toFixed(3)}
             </span>
           </DropdownMenuItem>
         ))}
