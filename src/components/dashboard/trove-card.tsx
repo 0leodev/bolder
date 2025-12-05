@@ -16,7 +16,7 @@ const Shimmer = ({ className = "" }: { className?: string }) => <div className={
 const StatRow = ({ label, value, svg }: { label: string; value: string; svg?: string }) => (
   <div className="flex justify-between gap-2 text-md font-medium bg-card px-4 h-12 rounded-lg items-center">
     <span className="truncate text-muted-foreground">{label}</span>
-    <div className="flex justify-between gap-2 bg-card px-3 h-8 rounded-2xl items-center">
+    <div className="flex justify-between gap-2 bg-custom-dark px-3 h-8 rounded-2xl items-center">
       {svg && <Image src={`${svg}`} alt={label} width={20} height={20} />}
       <span className="truncate">{value}</span>
     </div>
@@ -37,7 +37,7 @@ const TroveItem = ({ tokenId, trove }: { tokenId: string; trove?: Trove | null }
   const dropPercentNum = currentPriceNum > 0 ? (liquidationPriceNum > 0 ? (((currentPriceNum - liquidationPriceNum) / currentPriceNum) * 100).toFixed(0) : "N/A") : null;
 
   return (
-    <div className="rounded-2xl bg-navigation p-4 h-88">
+    <div className="rounded-2xl bg-custom-dark p-4 h-88">
       <div className="font-semibold mb-4">Loan Bolding</div>
       <div className="space-y-2">
         {trove ? (

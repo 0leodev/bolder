@@ -1,23 +1,26 @@
-import { useState, useCallback, useMemo } from 'react'
-import { BorrowState, ValidationError } from "@/types/borrow"
-import { COLLATERAL_TYPES, AVG_INTEREST_RATE } from "@/lib/constants"
-import BorrowCalculations from "@/lib/borrow-calculations"
-import { useAssetBalances } from "@/hooks/useBalances"
-import { usePriceFeeds } from '@/hooks/usePriceFeeds'
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { BorrowState, ValidationError } from "@/types/borrow";
+import { COLLATERAL_TYPES } from "@/lib/constants";
+import BorrowCalculations from "@/lib/borrow-calculations";
+import { useAssetBalances } from "@/hooks/useBalances";
+import { usePriceFeeds } from "@/hooks/usePriceFeeds";
+import useAvgInterest from "@/hooks/useAvgInterest";
 
 export default function useBorrowState() {
-  const balances = useAssetBalances()
+  const balances = useAssetBalances();
   const prices = usePriceFeeds();
 
   const [state, setState] = useState<BorrowState>({
     collateralAmount: "",
     borrowAmount: "",
     selectedCollateral: COLLATERAL_TYPES[0],
-    interestRate: AVG_INTEREST_RATE,
+    interestRate: 0,
     maxBorrowAmount: 0,
     liquidationPrice: 0,
     currentLTV: 0,
   });
+
+  const avgInterest = useAvgInterest(state.selectedCollateral.symbol);
 
   const [errors, setErrors] = useState<ValidationError[]>([]);
 
@@ -37,14 +40,18 @@ export default function useBorrowState() {
     setState((prev) => ({ ...prev, interestRate: rate }));
   }, []);
 
+  useEffect(() => {
+    updateInterestRate(avgInterest);
+  }, [avgInterest, updateInterestRate]);
+
   const updateMaxCollateral = useCallback(() => {
-    const currentBalance = balances[state.selectedCollateral.symbol]
-    setState((prev) => ({...prev, collateralAmount: currentBalance.toString(), }));
+    const currentBalance = balances[state.selectedCollateral.symbol];
+    setState((prev) => ({ ...prev, collateralAmount: currentBalance.toString() }));
   }, [state.selectedCollateral, balances]);
 
   const updateMaxBorrowAmount = useCallback(() => {
     const collateralNum = parseFloat(state.collateralAmount) || 0;
-    const maxBorrow = BorrowCalculations.calculateMaxBorrowAmount(collateralNum,state.selectedCollateral, prices);
+    const maxBorrow = BorrowCalculations.calculateMaxBorrowAmount(collateralNum, state.selectedCollateral, prices);
     setState((prev) => ({ ...prev, borrowAmount: (maxBorrow * 0.9).toFixed(0) }));
   }, [state.collateralAmount, state.selectedCollateral, prices]);
 

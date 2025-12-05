@@ -3,16 +3,20 @@
 import { useState } from "react"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
-import { MIN_INTEREST_RATE, MAX_INTEREST_RATE, AVG_INTEREST_RATE } from "@/lib/constants"
+import { MIN_INTEREST_RATE, MAX_INTEREST_RATE } from "@/lib/constants"
+import useAvgInterest from "@/hooks/useAvgInterest"
+import { WETH_wstETH_rETH } from "@/types/borrow"
 
 interface InterestRateSliderProps {
   value: number // state interestRate
   onChange: (value: number) => void // action updateInterestRate
+  collType: WETH_wstETH_rETH
 }
 
-export function InterestRateSlider({ value, onChange }: InterestRateSliderProps) {
+export function InterestRateSlider({ value, onChange, collType }: InterestRateSliderProps) {
   const [customInput, setCustomInput] = useState("")
   const [isCustomMode, setIsCustomMode] = useState(false)
+  const avgInterest = useAvgInterest(collType)
 
   const handleSliderChange = (values: number[]) => {
     setIsCustomMode(false)
@@ -69,9 +73,18 @@ export function InterestRateSlider({ value, onChange }: InterestRateSliderProps)
       />
 
       <div className="flex justify-between text-sm text-muted-foreground font-medium">
-        <span>{MIN_INTEREST_RATE}%</span>
-        <span>Avg {AVG_INTEREST_RATE}%</span>
-        <span>{MAX_INTEREST_RATE}%</span>
+        <span className="p-2">{MIN_INTEREST_RATE}%</span>
+        <span
+          className="bg-muted p-2 text-muted-foreground text-sm font-bold cursor-pointer hover:text-white rounded-lg"
+          onClick={() => {
+            onChange(avgInterest)
+            setIsCustomMode(false)
+            setCustomInput("")
+          }}
+        >
+          Avg {avgInterest}%
+        </span>
+        <span className="p-2">{MAX_INTEREST_RATE}%</span>
       </div>
     </div>
   )

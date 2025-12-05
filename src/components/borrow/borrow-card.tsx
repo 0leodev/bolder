@@ -141,7 +141,7 @@ export default function BorrowCard() {
 
             {/* INTEREST RATE SLIDER */}
             <div className="bg-card rounded-2xl p-4 hover:bg-navigation duration-300">
-              <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} />
+              <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} collType={state.selectedCollateral.symbol} />
             </div>
 
         </div>
