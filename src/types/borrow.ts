@@ -4,6 +4,8 @@ export interface CollateralType {
   icon: string;
 }
 
+export type WETH_wstETH_rETH = "WETH" | "wstETH" | "rETH";
+
 export interface BorrowState {
   collateralAmount: string;
   borrowAmount: string;
