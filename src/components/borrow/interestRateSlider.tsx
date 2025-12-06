@@ -4,19 +4,16 @@ import { useState } from "react"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
 import { MIN_INTEREST_RATE, MAX_INTEREST_RATE } from "@/lib/constants"
-import useAvgInterest from "@/hooks/useAvgInterest"
-import { WETH_wstETH_rETH } from "@/types/borrow"
 
 interface InterestRateSliderProps {
   value: number // state interestRate
   onChange: (value: number) => void // action updateInterestRate
-  collType: WETH_wstETH_rETH
+  avgInterest: number;
 }
 
-export function InterestRateSlider({ value, onChange, collType }: InterestRateSliderProps) {
+export function InterestRateSlider({ value, onChange, avgInterest }: InterestRateSliderProps) {
   const [customInput, setCustomInput] = useState("")
   const [isCustomMode, setIsCustomMode] = useState(false)
-  const avgInterest = useAvgInterest(collType)
 
   const handleSliderChange = (values: number[]) => {
     setIsCustomMode(false)

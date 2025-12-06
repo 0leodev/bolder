@@ -13,6 +13,7 @@ import { StatsDisplay } from "@/components/borrow/statsDisplay"
 import { AlertCircle } from "lucide-react"
 import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 import Image from "next/image";
+import useAvgInterest from "@/hooks/useAvgInterest"
 
 const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
 
@@ -27,6 +28,7 @@ export default function BorrowCard() {
   const balances = useAssetBalances()
   const handleBorrow = useHandleBorrow(actions.validateInputs, state)
   const prices = usePriceFeeds();
+  const avgInterest = useAvgInterest(state.selectedCollateral.symbol);
 
   const getFieldError = (field: string) => {
     return errors.find((error) => error.field === field)?.message
@@ -141,7 +143,7 @@ export default function BorrowCard() {
 
             {/* INTEREST RATE SLIDER */}
             <div className="bg-card rounded-2xl p-4 hover:bg-navigation duration-300">
-              <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} collType={state.selectedCollateral.symbol} />
+              <InterestRateSlider value={state.interestRate} onChange={actions.updateInterestRate} avgInterest={avgInterest} />
             </div>
 
         </div>
