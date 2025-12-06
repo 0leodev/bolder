@@ -12,16 +12,15 @@ export default function useAvgInterest(collType: WETH_wstETH_rETH) {
   const currentNetworkContract = useMemo(() => chainId === 1 ? contractAddresses_1 : contractAddresses_11155111, [chainId]);
 
   const branch = currentNetworkContract.branches.find(b => b.collSymbol === collType);
-  if (!branch) return 0;
 
   const { data: aggWeightedDebtSum } = useReadContract({
-    address: branch.activePool as `0x${string}`,
+    address: branch?.activePool as `0x${string}`,
     abi: ActivePool,
     functionName: "aggWeightedDebtSum",
   });
 
   const { data: aggRecordedDebt } = useReadContract({
-    address: branch.activePool as `0x${string}`,
+    address: branch?.activePool as `0x${string}`,
     abi: ActivePool,
     functionName: "aggRecordedDebt",
   });

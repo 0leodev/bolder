@@ -9,6 +9,7 @@ import useAvgInterest from "@/hooks/useAvgInterest"
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
   const { address } = useAccount();
+  const avgInterest = useAvgInterest(wholeState.selectedCollateral.symbol);
 
   const { data: troveNFTBalance } = useReadContract({
     address: contractAddresses.branches[0].troveNFT as `0x${string}`,
@@ -22,7 +23,7 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
       const collateralWei = parseEther(wholeState.collateralAmount);
       const borrowWei = parseEther(wholeState.borrowAmount);
       const interestRateWei = parseEther(wholeState.interestRate.toString());
-      const maxUpfrontFeeWei = parseEther((((parseFloat(wholeState.borrowAmount) * useAvgInterest(wholeState.selectedCollateral.symbol) * 0.01) / 365) * 7).toString());
+      const maxUpfrontFeeWei = parseEther((((parseFloat(wholeState.borrowAmount) * avgInterest * 0.01) / 365) * 7).toString());
       const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION);
 
       const params = {
