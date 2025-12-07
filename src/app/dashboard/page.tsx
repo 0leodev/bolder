@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import DashboardCard from "@/components/dashboard/dashboard-card";
 import { useAccount } from "wagmi";
 
+export const dynamic = 'force-dynamic'
+
 export default function DashboardPage() {
   const { isConnected } = useAccount();
   return (

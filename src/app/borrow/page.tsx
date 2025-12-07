@@ -3,6 +3,8 @@
 import { motion } from "framer-motion"
 import BorrowCard from "@/components/borrow/borrow-card"
 
+export const dynamic = 'force-dynamic'
+
 export default function BorrowPage() {
   return (
     <main className="min-h-screen bg-background py-15">
