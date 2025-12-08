@@ -19,6 +19,8 @@ export function useTokenIdsAlchemy(): UseTokenIdsAlchemyReturn {
   const [tokenIds, setTokenIds] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+
+  // useMemo is indispensable here
   const currentNetworkContract = useMemo(() => chainId === 1 ? contractAddresses_1 : contractAddresses_11155111, [chainId]);
   const troveNftContracts = useMemo(() => currentNetworkContract.branches.map(branch => branch.troveNFT), [currentNetworkContract]);
 

@@ -3,16 +3,20 @@ import { borrowSubmitted } from "@/lib/sonner-notifications";
 import { BorrowState } from "@/types/borrow";
 import { parseEther } from "viem";
 import { TroveNFT } from "@/abi/TroveNFT";
-import contractAddresses from "@/addresses/11155111.json";
 import { LIQUIDATION_GAS_COMPENSATION } from "@/lib/constants"
 import useAvgInterest from "@/hooks/useAvgInterest"
+import contractAddresses_1 from "@/addresses/1.json";
+import contractAddresses_11155111 from "@/addresses/11155111.json";
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const avgInterest = useAvgInterest(wholeState.selectedCollateral.symbol);
+  
+  const currentNetworkContract = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
+  const currentBranch = currentNetworkContract.branches.find(b => b.collSymbol === wholeState.selectedCollateral.symbol);
 
   const { data: troveNFTBalance } = useReadContract({
-    address: contractAddresses.branches[0].troveNFT as `0x${string}`,
+    address: currentBranch?.troveNFT as `0x${string}`,
     abi: TroveNFT,
     functionName: "balanceOf",
     args: address ? [address] : undefined,
@@ -20,16 +24,17 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
 
   return () => {
     if (validateInputs() && address) {
-      const collateralWei = parseEther(wholeState.collateralAmount);
+      const collateralWei = wholeState.selectedCollateral.symbol === "WETH" ? BigInt(0) : parseEther(wholeState.collateralAmount);
+      const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION);
+      const value = wholeState.selectedCollateral.symbol === "WETH" ? collateralWei + gasCompensationWei : BigInt(0); 
       const borrowWei = parseEther(wholeState.borrowAmount);
       const interestRateWei = parseEther(wholeState.interestRate.toString());
       const maxUpfrontFeeWei = parseEther((((parseFloat(wholeState.borrowAmount) * avgInterest * 0.01) / 365) * 7).toString());
-      const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION);
 
       const params = {
         owner: address,
         ownerIndex: troveNFTBalance ?? BigInt(0),
-        collAmount: BigInt(0),
+        collAmount: collateralWei,
         boldAmount: borrowWei,
         upperHint: BigInt(0),
         lowerHint: BigInt(0),
@@ -42,7 +47,7 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
       };
 
       console.log("Opening trove with:", {
-        value: collateralWei + gasCompensationWei, 
+        value: value, 
         params,
       })
 

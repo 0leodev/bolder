@@ -1,5 +1,4 @@
 import { useReadContracts, useAccount } from "wagmi";
-import { useMemo } from "react";
 import contractAddresses_1 from "@/addresses/1.json";
 import contractAddresses_11155111 from "@/addresses/11155111.json";
 import { useTokenIdsAlchemy } from "@/hooks/useTokenIdsAlchemy";
@@ -8,7 +7,7 @@ import { Trove, TroveTuple } from "@/types/borrow";
 
 export default function useTroveState(): { troves: (Trove | null)[] } {
   const { chainId } = useAccount();  
-  const currentNetworkContract = useMemo(() => chainId === 1 ? contractAddresses_1 : contractAddresses_11155111, [chainId]);
+  const currentNetworkContract = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
   const { tokenIds } = useTokenIdsAlchemy();
 
   const { data: troveInfo } = useReadContracts({

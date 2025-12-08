@@ -1,6 +1,5 @@
 import { useAccount, useBalance } from "wagmi";
 import { formatUnits } from "viem";
-import { useMemo } from "react";
 import contractAddresses_1 from "@/addresses/1.json";
 import contractAddresses_11155111 from "@/addresses/11155111.json";
 
@@ -16,13 +15,17 @@ interface AssetBalances {
 export function useAssetBalances(): AssetBalances {
   const { address, chainId } = useAccount();
   const { data: ethBalance } = useBalance({ address });
-  const currentNetworkContract = useMemo(() => chainId === 1 ? contractAddresses_1 : contractAddresses_11155111, [chainId]);
+  const currentNetworkContract = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
 
   const ethParsed = ethBalance ? parseFloat((formatUnits(ethBalance.value, ethBalance.decimals))) : 0;
   const ethBalanceParsed = ethParsed > residualEth ? ethParsed - residualEth : 0;
 
+  // const { data: wstETHBalance } = useBalance({address, token: currentNetworkContract.branches[1].collToken as `0x${string}`});
+  // const wstETHBalanceParsed = wstETHBalance ? parseFloat(formatUnits(wstETHBalance.value, wstETHBalance.decimals)) : 0
+
+  // Temporary change for testing
   const { data: wstETHBalance } = useBalance({address, token: currentNetworkContract.branches[1].collToken as `0x${string}`});
-  const wstETHBalanceParsed = wstETHBalance ? parseFloat(formatUnits(wstETHBalance.value, wstETHBalance.decimals)) : 0
+  const wstETHBalanceParsed = wstETHBalance ? parseFloat("12.45") : 0
 
   const { data: rETHBalance } = useBalance({address, token: currentNetworkContract.branches[2].collToken as `0x${string}`});
   const rETHBalanceParsed = rETHBalance ? parseFloat(formatUnits(rETHBalance.value, rETHBalance.decimals)) : 0
