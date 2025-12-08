@@ -25,10 +25,18 @@ export function InterestRateSlider({ value, onChange, collType }: InterestRateSl
   }
 
   const handleCustomInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value
-    setCustomInput(inputValue)
+    const value = e.target.value.replace(/[^0-9.]/g, '').split('.').slice(0, 2).join('.');
+    const num = parseFloat(value);
+    let finalValue = value;
+    if (!isNaN(num) && num > 25) {
+      finalValue = '25';
+    }
+    if (!isNaN(num) && num < 0.5) {
+      finalValue = '0.5';
+    }
+    setCustomInput(finalValue)
     setIsCustomMode(true)
-    const numValue = parseFloat(inputValue)
+    const numValue = parseFloat(finalValue)
     if (!isNaN(numValue) && numValue >= MIN_INTEREST_RATE && numValue <= MAX_INTEREST_RATE) {
       onChange(numValue)
     }
