@@ -1,6 +1,7 @@
 {
   "collateralRegistry": "0xfae08e80e0598ebecb8a3acf0eb8f85922e7cae1",
   "boldToken": "0x181dff47198bf3f3ed65877332e8395eb6817c4c",
+  "sBoldToken": "0x7d71fD366F1216F8E2F2A94f286c410546A34e90",
   "hintHelpers": "0x10fe36cc9a830c86f8117c74e85ce6c58705ef21",
   "multiTroveGetter": "0x19303bc4d3518039d0780a55e9950b222b178467",
   "debtInFrontHelper": "0x99d799D62611849D4D1dA5FF770147164873Eb99",
