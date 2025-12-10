@@ -45,8 +45,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WalletProviders>
           <Navigation />
           <div className="pt-10 pb-25 flex-grow">{children}</div>
+          <Footer />
         </WalletProviders>
-        <Footer />
         <Toaster />
       </body>
     </html>

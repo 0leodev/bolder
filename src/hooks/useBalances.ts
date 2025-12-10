@@ -10,6 +10,7 @@ interface AssetBalances {
   wstETH: number;
   rETH: number;
   BOLD: number;
+  sBOLD: number;
 }
 
 export function useAssetBalances(): AssetBalances {
@@ -33,11 +34,15 @@ export function useAssetBalances(): AssetBalances {
   const { data: boldBalance } = useBalance({address, token: currentNetworkContract.boldToken as `0x${string}`});
   const boldBalanceParsed = boldBalance ? parseFloat(formatUnits(boldBalance.value, boldBalance.decimals)) : 0
 
+  const { data: sBoldBalance } = useBalance({address, token: currentNetworkContract.sBoldToken as `0x${string}`});
+  const sBoldBalanceParsed = sBoldBalance ? parseFloat(formatUnits(sBoldBalance.value, sBoldBalance.decimals)) : 0
+
   const balances: AssetBalances = {
     WETH: parseFloat(ethBalanceParsed.toFixed(3)),
     wstETH: wstETHBalanceParsed,
     rETH: rETHBalanceParsed,
     BOLD: boldBalanceParsed,
+    sBOLD: sBoldBalanceParsed,
   };
 
   return balances;
