@@ -5,19 +5,18 @@ import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 import Image from "next/image";
 
 const BalanceBox = ({ svg, balance, price, extraClass }: { svg: string; balance: number; price: number; extraClass?: string }) => (
-  <div className={`flex flex-col w-33 justify-center bg-card rounded-2xl p-3 gap-1 text-lg font-medium items-center truncate ${extraClass}`}>
+  <div className={`flex flex-col justify-center bg-card rounded-2xl p-3 gap-1 text-lg font-medium items-center ${extraClass}`}>
     <div className="flex items-center gap-2 bg-custom-dark p-3 rounded-xl">
       <Image src={svg} alt={svg} width={25} height={25} />
-      {balance.toFixed(3)}
+      <div className="max-w-30 truncate">{balance.toFixed(2)}</div>
     </div>
-    <span className="text-sm text-muted-foreground mt-1">${(balance * price).toFixed(2)}</span>
+    <span className="max-w-35 truncate text-sm text-muted-foreground mt-1">${(balance * price).toFixed(2)}</span>
   </div>
 );
 
 export default function DashboardCard() {
   const balances = useAssetBalances();
-  const priceFeeds = usePriceFeeds();
-  const prices = { ...priceFeeds, BOLD: 1 }; // meaning that BOLD is at $1 USD
+  const prices = usePriceFeeds();
   return (
     <main>
       <div className="flex justify-between gap-4 mb-7 items-center">
@@ -32,9 +31,9 @@ export default function DashboardCard() {
         <div className="flex justify-between rounded-2xl gap-3 items-center">
           <BalanceBox svg={"/logos/BOLD.svg"} balance={balances.BOLD} price={prices.BOLD} />
           <BalanceBox svg={"/logos/sBOLD.svg"} balance={balances.sBOLD} price={prices.sBOLD} />
-          <BalanceBox svg={"/logos/WETH.svg"} balance={balances.WETH} extraClass={"hidden lg:flex"} price={prices.WETH} />
-          <BalanceBox svg={"/logos/wstETH.svg"} balance={balances.wstETH} extraClass={"hidden sm:flex"} price={prices.wstETH} />
-          <BalanceBox svg={"/logos/rETH.svg"} balance={balances.rETH} extraClass={"hidden sm:flex"} price={prices.rETH} />
+          <BalanceBox svg={"/logos/WETH.svg"} balance={balances.WETH} extraClass={"hidden md:flex"} price={prices.WETH} />
+          <BalanceBox svg={"/logos/wstETH.svg"} balance={balances.wstETH} extraClass={"hidden lg:flex"} price={prices.wstETH} />
+          <BalanceBox svg={"/logos/rETH.svg"} balance={balances.rETH} extraClass={"hidden xl:flex"} price={prices.rETH} />
         </div>
       </div>
 

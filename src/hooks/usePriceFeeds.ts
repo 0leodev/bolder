@@ -9,6 +9,7 @@ export interface PriceFeeds {
   WETH: number;
   wstETH: number;
   rETH: number;
+  BOLD: number;
   sBOLD: number;
 }
 
@@ -19,6 +20,7 @@ export function usePriceFeeds(): PriceFeeds {
     WETH: 0.00,
     wstETH: 0.00,
     rETH: 0.00,
+    BOLD: 0.00,
     sBOLD: 0.00,
   });
 
@@ -41,6 +43,7 @@ export function usePriceFeeds(): PriceFeeds {
           WETH: twoDigits(data.ethereum?.usd),
           wstETH: twoDigits(data['wrapped-steth']?.usd),
           rETH: twoDigits(data['rocket-pool-eth']?.usd),
+          BOLD: 1,
           sBOLD: sBoldRateParsed,
         });
       } catch (error) {
