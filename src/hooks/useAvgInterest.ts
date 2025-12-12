@@ -9,17 +9,19 @@ import { removeDigits } from "@/utils/format";
 export default function useAvgInterest(collType: WETH_wstETH_rETH) {
   const { chainId } = useAccount();
   
-  const currentNetworkContract = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
-  const currentBranch = currentNetworkContract.branches.find(b => b.collSymbol === collType);
+  const currentNetworkAddress = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
+  const currentNetworkBranch = currentNetworkAddress.branches.find(b => b.collSymbol === collType);
+  const mainnetBranch = contractAddresses_1.branches.find(b => b.collSymbol === collType);
+  const branch = chainId ? currentNetworkBranch : mainnetBranch;
 
   const { data: aggWeightedDebtSum } = useReadContract({
-    address: currentBranch?.activePool as `0x${string}`,
+    address: branch?.activePool as `0x${string}`,
     abi: ActivePool,
     functionName: "aggWeightedDebtSum",
   });
 
   const { data: aggRecordedDebt } = useReadContract({
-    address: currentBranch?.activePool as `0x${string}`,
+    address: branch?.activePool as `0x${string}`,
     abi: ActivePool,
     functionName: "aggRecordedDebt",
   });
