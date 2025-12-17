@@ -21,7 +21,7 @@ export function useTokenIdsAlchemy(): UseTokenIdsAlchemyReturn {
   const [error, setError] = useState<Error | null>(null);
 
   // useMemo is indispensable here
-  const currentNetworkContract = useMemo(() => chainId === 1 ? contractAddresses_1 : contractAddresses_11155111, [chainId]);
+  const currentNetworkContract = useMemo(() => chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111, [chainId]);
   const troveNftContracts = useMemo(() => currentNetworkContract.branches.map(branch => branch.troveNFT), [currentNetworkContract]);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export function useTokenIdsAlchemy(): UseTokenIdsAlchemyReturn {
         const alchemyApiKey = env_alchemy.API_KEY;
         if (!alchemyApiKey) throw new Error("ALCHEMY_API_KEY not configured")
 
-        const currentNetwork = chainId === 1 ? "eth-mainnet" : "eth-sepolia";
+        const currentNetwork = chainId === 1 || chainId === 31337 ? "eth-mainnet" : "eth-sepolia";
 
         const contractAddressesQuery = troveNftContracts.map(addr => `contractAddresses=${addr}`).join('&');
         const url = `https://${currentNetwork}.g.alchemy.com/nft/v3/${alchemyApiKey}/getNFTsForOwner?owner=${address}&${contractAddressesQuery}`;

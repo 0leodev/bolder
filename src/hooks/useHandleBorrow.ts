@@ -12,7 +12,7 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
   const { address, chainId } = useAccount();
   const avgInterest = useAvgInterest(wholeState.selectedCollateral.symbol);
   
-  const currentNetworkContract = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
+  const currentNetworkContract = chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111;
   const currentBranch = currentNetworkContract.branches.find(b => b.collSymbol === wholeState.selectedCollateral.symbol);
 
   const { data: troveNFTBalance } = useReadContract({

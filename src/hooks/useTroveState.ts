@@ -7,7 +7,7 @@ import { Trove, TroveTuple } from "@/types/borrow";
 
 export default function useTroveState(): { troves: (Trove | null)[] } {
   const { chainId } = useAccount();  
-  const currentNetworkContract = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
+  const currentNetworkContract = chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111;
   const { tokenIds } = useTokenIdsAlchemy();
 
   const { data: troveInfo } = useReadContracts({

@@ -9,7 +9,7 @@ import { removeDigits } from "@/utils/format";
 export default function useAvgInterest(collType: WETH_wstETH_rETH) {
   const { chainId } = useAccount();
   
-  const currentNetworkAddress = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
+  const currentNetworkAddress = chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111;
   const currentNetworkBranch = currentNetworkAddress.branches.find(b => b.collSymbol === collType);
   const mainnetBranch = contractAddresses_1.branches.find(b => b.collSymbol === collType);
   const branch = chainId ? currentNetworkBranch : mainnetBranch;
