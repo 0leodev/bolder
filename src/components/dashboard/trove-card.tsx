@@ -48,7 +48,7 @@ const TroveItem = ({ tokenId, trove }: { tokenId: string; trove?: Trove | null }
             <StatRow label="Annual interest" value={`${interestNum}%`} />
           </>
         ) : (
-          Array.from({ length: 4 }, (_, i) => <Shimmer key={i} className="px-4 h-12 rounded-lg" />)
+          Array.from({ length: 4 }, (_, index) => <Shimmer key={index} className="px-4 h-12 rounded-lg" />)
         )}
       </div>
       <div className="flex justify-between gap-2 mt-2 text-md font-medium bg-card px-4 h-12 rounded-lg items-center">
@@ -73,8 +73,8 @@ export default function TroveCard() {
   if (isLoading) {
     return (
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {Array.from({ length: 3 }, (_, i) => (
-          <Shimmer key={i} className="h-88 rounded-2xl" />
+        {Array.from({ length: 3 }, (_, index) => (
+          <Shimmer key={index} className="h-88 rounded-2xl" />
         ))}
       </div>
     );
@@ -82,8 +82,8 @@ export default function TroveCard() {
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {tokenIds.map((tokenId, i) => (
-        <TroveItem key={tokenId} tokenId={tokenId} trove={troves[i]} />
+      {tokenIds.map((tokenId, index) => (
+        <TroveItem key={index} tokenId={tokenId} trove={troves[index]} />
       ))}
     </div>
   );
