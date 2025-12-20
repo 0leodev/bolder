@@ -127,3 +127,9 @@ html {
   0% { left: -100%; }
   100% { left: 100%; }
 }
+
+/* Text selection color */
+::selection {
+  background-color: #005675;
+  color: #ffffff;
+}
