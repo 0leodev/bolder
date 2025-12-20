@@ -26,7 +26,7 @@ export default function useAvgInterest(collType: WETH_wstETH_rETH) {
     functionName: "aggRecordedDebt",
   });
 
-  const avgInterestRate = aggWeightedDebtSum && aggRecordedDebt ? removeDigits(aggWeightedDebtSum / aggRecordedDebt, 16) : 0;
+  const avgInterestRate = aggWeightedDebtSum && aggRecordedDebt ? removeDigits(aggWeightedDebtSum / aggRecordedDebt, 16) : 0.5;
 
   return avgInterestRate
 }

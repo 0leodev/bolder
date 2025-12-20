@@ -35,16 +35,15 @@ export const SortedTroves = [{
 }, {
   "type": "function",
   "name": "findInsertPosition",
-  "inputs": [{ "name": "_annualInterestRate", "type": "uint256", "internalType": "uint256" }, {
-    "name": "_prevId",
-    "type": "uint256",
-    "internalType": "uint256",
-  }, { "name": "_nextId", "type": "uint256", "internalType": "uint256" }],
-  "outputs": [{ "name": "", "type": "uint256", "internalType": "uint256" }, {
-    "name": "",
-    "type": "uint256",
-    "internalType": "uint256",
-  }],
+  "inputs": [
+    { "name": "_annualInterestRate", "type": "uint256", "internalType": "uint256" }, 
+    { "name": "_prevId", "type": "uint256", "internalType": "uint256" }, 
+    { "name": "_nextId", "type": "uint256", "internalType": "uint256" },
+  ],
+  "outputs": [
+    { "name": "", "type": "uint256", "internalType": "uint256" }, 
+    { "name": "", "type": "uint256", "internalType": "uint256" },
+  ],
   "stateMutability": "view",
 }, {
   "type": "function",
