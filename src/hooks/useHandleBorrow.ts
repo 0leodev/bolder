@@ -1,4 +1,5 @@
 import { useAccount, useReadContract } from "wagmi";
+import { readContract } from "wagmi/actions";
 import { borrowSubmitted } from "@/lib/sonner-notifications";
 import { BorrowState } from "@/types/borrow";
 import { parseEther } from "viem";
@@ -7,6 +8,9 @@ import { LIQUIDATION_GAS_COMPENSATION } from "@/lib/constants";
 import useAvgInterest from "@/hooks/useAvgInterest";
 import contractAddresses_1 from "@/addresses/1.json";
 import contractAddresses_11155111 from "@/addresses/11155111.json";
+import { config as wagmiConfig } from "@/config/wagmiConfig";
+import { HintHelpers } from "@/abi/HintHelpers";
+import { SortedTroves } from "@/abi/SortedTroves";
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
   const { address, chainId } = useAccount();
@@ -22,8 +26,8 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
     args: address ? [address] : undefined,
   });
 
-  return () => {
-    if (validateInputs() && address) {
+  return async () => {
+    if (validateInputs() && address && currentBranch) {
       const collateralWei = wholeState.selectedCollateral.symbol === "WETH" ? BigInt(0) : parseEther(wholeState.collateralAmount);
       const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION);
       const value = wholeState.selectedCollateral.symbol === "WETH" ? parseEther(wholeState.collateralAmount) + gasCompensationWei : BigInt(0);
@@ -31,13 +35,40 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
       const interestRateWei = parseEther(wholeState.interestRate.toString());
       const maxUpfrontFeeWei = parseEther((((parseFloat(wholeState.borrowAmount) * avgInterest * 0.01) / 365) * 7).toString());
 
+      // Get hints
+      let collIndex = 0;
+      if (wholeState.selectedCollateral.symbol === "wstETH") collIndex = 1;
+      else if (wholeState.selectedCollateral.symbol === "rETH") collIndex = 2;
+
+      const numTroves = await readContract(wagmiConfig, {
+        address: currentBranch.sortedTroves as `0x${string}`,
+        abi: SortedTroves,
+        functionName: "getSize",
+      });
+
+      const numTrials = BigInt(Math.floor(Math.sqrt(Number(numTroves)))) * 15n;
+
+      const [approxHint] = await readContract(wagmiConfig, {
+        address: currentNetworkContract.hintHelpers as `0x${string}`,
+        abi: HintHelpers,
+        functionName: "getApproxHint",
+        args: [BigInt(collIndex), interestRateWei, numTrials, BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER))],
+      });
+
+      const [upperHint, lowerHint] = await readContract(wagmiConfig, {
+        address: currentBranch.sortedTroves as `0x${string}`,
+        abi: SortedTroves,
+        functionName: "findInsertPosition",
+        args: [interestRateWei, approxHint, approxHint],
+      });
+
       const params = {
         owner: address,
         ownerIndex: troveNFTBalance! + BigInt(1),
         collAmount: collateralWei,
         boldAmount: borrowWei,
-        upperHint: BigInt(0),
-        lowerHint: BigInt(0),
+        upperHint: upperHint,
+        lowerHint: lowerHint,
         annualInterestRate: interestRateWei,
         batchManager: "0x0000000000000000000000000000000000000000" as `0x${string}`,
         maxUpfrontFee: maxUpfrontFeeWei,
