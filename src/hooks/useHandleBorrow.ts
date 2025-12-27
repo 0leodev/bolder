@@ -1,5 +1,5 @@
 import { useAccount, useReadContract } from "wagmi";
-import { readContract } from "wagmi/actions";
+import { readContract, writeContract } from "wagmi/actions";
 import { borrowSubmitted } from "@/lib/sonner-notifications";
 import { BorrowState } from "@/types/borrow";
 import { parseEther } from "viem";
@@ -11,6 +11,8 @@ import contractAddresses_11155111 from "@/addresses/11155111.json";
 import { config as wagmiConfig } from "@/config/wagmiConfig";
 import { HintHelpers } from "@/abi/HintHelpers";
 import { SortedTroves } from "@/abi/SortedTroves";
+import { LeverageWETHZapper } from "@/abi/LeverageWETHZapper";
+import { LeverageLSTZapper } from "@/abi/LeverageLSTZapper";
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
   const { address, chainId } = useAccount();
@@ -81,6 +83,16 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
         value: value, 
         params,
       })
+
+      // const txHash = await writeContract(wagmiConfig, {
+      //   address: currentBranch.leverageZapper as `0x${string}`,
+      //   abi: wholeState.selectedCollateral.symbol === "WETH" ? LeverageWETHZapper : LeverageLSTZapper,
+      //   functionName: "openTroveWithRawETH",
+      //   args: [params],
+      //   value,
+      // });
+
+      // console.log("Transaction hash:", txHash);
 
       borrowSubmitted();
     }
