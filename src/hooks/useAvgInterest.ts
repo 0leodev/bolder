@@ -2,11 +2,11 @@ import contractAddresses_1 from "@/addresses/1.json";
 import contractAddresses_11155111 from "@/addresses/11155111.json";
 import { useReadContract } from "wagmi";
 import { useAccount } from "wagmi";
-import { WETH_wstETH_rETH } from "@/types/borrow"
+import { collOptions } from "@/types/borrow"
 import { ActivePool } from "@/abi/ActivePool"
 import { removeDigits } from "@/utils/format";
 
-export default function useAvgInterest(collType: WETH_wstETH_rETH) {
+export default function useAvgInterest(collType: collOptions) {
   const { chainId } = useAccount();
   
   const currentNetworkAddress = chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111;

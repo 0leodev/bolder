@@ -1,10 +1,10 @@
 export interface CollateralType {
-  symbol: "WETH" | "wstETH" | "rETH";
+  symbol: "ETH" | "WETH" | "wstETH" | "rETH";
   ltvMax: number;
   icon: string;
 }
 
-export type WETH_wstETH_rETH = "WETH" | "wstETH" | "rETH";
+export type collOptions = "ETH" | "WETH" | "wstETH" | "rETH";
 
 export interface BorrowState {
   collateralAmount: string;
