@@ -24,8 +24,8 @@ export default function Footer() {
 
           { prices["WETH"] > 0 && (
           <div className="flex justify-start gap-2 rounded-[25px] font-medium text-lg text-muted-foreground w-fit">
-            {COLLATERAL_TYPES.map((coll) => (
-              <div key={coll.symbol} className={`flex justify-center gap-2 bg-card px-5 py-3 rounded-2xl min-w-34 ${coll.symbol !== 'WETH' ? 'hidden md:flex' : ''}`}>
+            {COLLATERAL_TYPES.filter(coll => coll.symbol !== 'WETH').map((coll) => (
+              <div key={coll.symbol} className={`flex justify-center gap-2 bg-card px-5 py-3 rounded-2xl min-w-34 ${coll.symbol !== 'ETH' ? 'hidden md:flex' : ''}`}>
                 <Image src={coll.icon} alt={coll.symbol} width={24} height={24} />
                 <div>{`$${prices[coll.symbol].toLocaleString()}`}</div>
               </div>

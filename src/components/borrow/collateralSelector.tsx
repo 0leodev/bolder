@@ -8,8 +8,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useAssetBalances } from "@/hooks/useBalances"
 import Image from "next/image";
 
-const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
-
 interface CollateralSelectorProps {
   selectedCollateral: CollateralType // state
   onSelect: (collateral: CollateralType) => void // action
@@ -24,7 +22,7 @@ export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSe
         <div className="flex justify-between gap-2 border-border/50 rounded-[40px] items-center">
           <Image src={selectedCollateral.icon} alt={selectedCollateral.symbol} width={24} height={24} />
           <span className="font-bold text-lg">
-            {wETHintoETH(selectedCollateral.symbol)}
+            {selectedCollateral.symbol}
           </span>
           <ChevronDown className="h-3 w-3 opacity-70" />
         </div>
@@ -39,7 +37,7 @@ export function CollateralSelector({ selectedCollateral, onSelect}: CollateralSe
           >
             <span className="font-semibold text-base">
               <Image src={collateral.icon} alt={collateral.symbol} width={20} height={20} className="mr-2 inline" />
-              {wETHintoETH(collateral.symbol)}
+              {collateral.symbol}
             </span>
             <span className="font-semibold text-sm mr-2">
               {(balances[collateral.symbol]).toFixed(3)}

@@ -9,8 +9,6 @@ import { COLLATERAL_TYPES } from "@/lib/constants";
 import { usePriceFeeds } from "@/hooks/usePriceFeeds";
 import Image from "next/image";
 
-const wETHintoETH = (collSymbol: string) => collSymbol === "WETH" ? "ETH" : collSymbol;
-
 const Shimmer = ({ className = "" }: { className?: string }) => <div className={`bg-white/5 loading-shimmer ${className}`} />;
 
 const StatRow = ({ label, value, svg }: { label: string; value: string; svg?: string }) => (
@@ -43,7 +41,7 @@ const TroveItem = ({ tokenId, trove }: { tokenId: string; trove?: Trove | null }
         {trove ? (
           <>
             <StatRow label="Debt" value={`${currencyString(debtNum)} BOLD `} svg="/logos/BOLD.svg" />
-            <StatRow label="Collateral" value={`${collNum} ${wETHintoETH(trove.collateralSymbol)}`} svg={`/logos/${trove.collateralSymbol}.svg`} />
+            <StatRow label="Collateral" value={`${collNum} ${trove.collateralSymbol}`} svg={`/logos/${trove.collateralSymbol}.svg`} />
             <StatRow label="Liquidation price" value={`$${currencyString(liquidationPriceNum)} ${dropPercentNum ? ` /🔻${dropPercentNum}%` : ""}`} />
             <StatRow label="Annual interest" value={`${interestNum}%`} />
           </>
