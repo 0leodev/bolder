@@ -7,6 +7,7 @@ import { sBOLD } from '@/abi/sBOLD';
 const residualEth = 0.1; // residue (avoid using all the ETH)
 
 interface AssetBalances {
+  ETH: number;
   WETH: number;
   wstETH: number;
   rETH: number;
@@ -18,10 +19,13 @@ interface AssetBalances {
 export function useAssetBalances(): AssetBalances {
   const { address, chainId } = useAccount();
   const { data: ethBalance } = useBalance({ address });
-  const currentNetworkContract = chainId === 1 ? contractAddresses_1 : contractAddresses_11155111;
+  const currentNetworkContract = chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111;
 
   const ethParsed = ethBalance ? parseFloat(formatUnits(ethBalance.value, ethBalance.decimals)) : 0;
   const ethBalanceParsed = ethParsed > residualEth ? ethParsed - residualEth : 0;
+
+  const { data: wethBalance } = useBalance({ address, token: currentNetworkContract.branches[0].collToken as `0x${string}` });
+  const wethBalanceParsed = wethBalance ? parseFloat(formatUnits(wethBalance.value, wethBalance.decimals)) : 0;
 
   // const { data: wstETHBalance } = useBalance({address, token: currentNetworkContract.branches[1].collToken as `0x${string}`});
   // const wstETHBalanceParsed = wstETHBalance ? parseFloat(formatUnits(wstETHBalance.value, wstETHBalance.decimals)) : 0
@@ -49,7 +53,8 @@ export function useAssetBalances(): AssetBalances {
   const BoldOnSBoldVaultParsed = BoldOnSBoldVault ? parseFloat(formatUnits(BoldOnSBoldVault, 18)) : 0;
 
   const balances: AssetBalances = {
-    WETH: parseFloat(ethBalanceParsed.toFixed(3)),
+    ETH: ethBalanceParsed,
+    WETH: wethBalanceParsed,
     wstETH: wstETHBalanceParsed,
     rETH: rETHBalanceParsed,
     BOLD: boldBalanceParsed,
