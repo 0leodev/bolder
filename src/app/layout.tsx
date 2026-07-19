@@ -3,6 +3,7 @@ import WalletProviders from "@/providers/WalletProviders";
 import { Navigation } from "@/components/navigation";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/footer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </WalletProviders>
         <Toaster />
+        <SpeedInsights />
       </body>
     </html>
   );
