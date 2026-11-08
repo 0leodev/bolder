@@ -5,12 +5,12 @@ import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
 import { MIN_INTEREST_RATE, MAX_INTEREST_RATE } from "@/lib/constants"
 import useAvgInterest from "@/hooks/useAvgInterest"
-import { WETH_wstETH_rETH } from "@/types/borrow"
+import { collOptions } from "@/types/borrow"
 
 interface InterestRateSliderProps {
   value: number // state interestRate
   onChange: (value: number) => void // action updateInterestRate
-  collType: WETH_wstETH_rETH
+  collType: collOptions
 }
 
 export function InterestRateSlider({ value, onChange, collType }: InterestRateSliderProps) {
