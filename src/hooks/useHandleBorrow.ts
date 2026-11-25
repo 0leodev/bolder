@@ -100,14 +100,13 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
         params,
       })
 
-
-      const txHash = await writeContract(wagmiConfig, {
-        address: currentBranch.leverageZapper as `0x${string}`,
-        abi: wholeState.selectedCollateral.symbol === "WETH" ? LeverageWETHZapper : LeverageLSTZapper,
-        functionName: "openTroveWithRawETH",
-        args: [params],
-        value,
-      });
+//      const txHash = await writeContract(wagmiConfig, {
+//        address: currentBranch.leverageZapper as `0x${string}`,
+//        abi: wholeState.selectedCollateral.symbol === "WETH" ? LeverageWETHZapper : LeverageLSTZapper,
+//        functionName: "openTroveWithRawETH",
+//        args: [params],
+//        value,
+//      });
 
       console.log("Transaction hash:", txHash);
 
