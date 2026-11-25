@@ -1,9 +1,8 @@
-import { useAccount, useReadContract } from "wagmi";
-import { readContract, writeContract } from "wagmi/actions";
+import { useAccount } from "wagmi";
+import { readContract, writeContract, waitForTransactionReceipt } from "wagmi/actions";
 import { borrowSubmitted } from "@/lib/sonner-notifications";
 import { BorrowState } from "@/types/borrow";
 import { parseEther } from "viem";
-import { TroveNFT } from "@/abi/TroveNFT";
 import { LIQUIDATION_GAS_COMPENSATION } from "@/lib/constants";
 import useAvgInterest from "@/hooks/useAvgInterest";
 import contractAddresses_1 from "@/addresses/1.json";
@@ -13,6 +12,7 @@ import { HintHelpers } from "@/abi/HintHelpers";
 import { SortedTroves } from "@/abi/SortedTroves";
 import { LeverageWETHZapper } from "@/abi/LeverageWETHZapper";
 import { LeverageLSTZapper } from "@/abi/LeverageLSTZapper";
+import { erc20Abi } from "viem";
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
   const { address, chainId } = useAccount();
@@ -21,21 +21,37 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
   const currentNetworkContract = chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111;
   const currentBranch = currentNetworkContract.branches.find((b) => b.collSymbol === wholeState.selectedCollateral.symbol);
 
-  const { data: troveNFTBalance } = useReadContract({
-    address: currentBranch?.troveNFT as `0x${string}`,
-    abi: TroveNFT,
-    functionName: "balanceOf",
-    args: address ? [address] : undefined,
-  });
-
   return async () => {
     if (validateInputs() && address && currentBranch) {
-      const collateralWei = wholeState.selectedCollateral.symbol === "WETH" ? BigInt(0) : parseEther(wholeState.collateralAmount);
+      const ownerIndex = BigInt("0x" + Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join(""));
+      const collateralWei = parseEther(wholeState.collateralAmount);
       const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION);
-      const value = wholeState.selectedCollateral.symbol === "WETH" ? parseEther(wholeState.collateralAmount) + gasCompensationWei : BigInt(0);
+      const value = wholeState.selectedCollateral.symbol === "WETH" ? collateralWei + gasCompensationWei : gasCompensationWei;
       const borrowWei = parseEther(wholeState.borrowAmount);
       const interestRateWei = parseEther(wholeState.interestRate.toString());
-      const maxUpfrontFeeWei = parseEther((((parseFloat(wholeState.borrowAmount) * avgInterest * 0.01) / 365) * 7).toString());
+      const maxUpfrontFeeWei = parseEther(((((parseFloat(wholeState.borrowAmount) * avgInterest * 0.01) / 365) * 7) * 1.1).toString());
+
+      if (wholeState.selectedCollateral.symbol !== "WETH") {
+        const collToken = currentBranch.collToken as `0x${string}`;
+        const zapper = currentBranch.leverageZapper as `0x${string}`;
+
+        const allowance = await readContract(wagmiConfig, {
+          address: collToken,
+          abi: erc20Abi,
+          functionName: "allowance",
+          args: [address, zapper],
+        });
+
+        if (allowance < collateralWei) {
+          const approveHash = await writeContract(wagmiConfig, {
+            address: collToken,
+            abi: erc20Abi,
+            functionName: "approve",
+            args: [zapper, collateralWei],
+          });
+          await waitForTransactionReceipt(wagmiConfig, { hash: approveHash });
+        }
+      }
 
       // Get hints
       let collIndex = 0;
@@ -66,7 +82,7 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
 
       const params = {
         owner: address,
-        ownerIndex: troveNFTBalance! + BigInt(1),
+        ownerIndex: ownerIndex,
         collAmount: collateralWei,
         boldAmount: borrowWei,
         upperHint: upperHint,
@@ -84,15 +100,16 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
         params,
       })
 
-      // const txHash = await writeContract(wagmiConfig, {
-      //   address: currentBranch.leverageZapper as `0x${string}`,
-      //   abi: wholeState.selectedCollateral.symbol === "WETH" ? LeverageWETHZapper : LeverageLSTZapper,
-      //   functionName: "openTroveWithRawETH",
-      //   args: [params],
-      //   value,
-      // });
 
-      // console.log("Transaction hash:", txHash);
+      const txHash = await writeContract(wagmiConfig, {
+        address: currentBranch.leverageZapper as `0x${string}`,
+        abi: wholeState.selectedCollateral.symbol === "WETH" ? LeverageWETHZapper : LeverageLSTZapper,
+        functionName: "openTroveWithRawETH",
+        args: [params],
+        value,
+      });
+
+      console.log("Transaction hash:", txHash);
 
       borrowSubmitted();
     }
