@@ -12,42 +12,50 @@ import { HintHelpers } from "@/abi/HintHelpers";
 import { SortedTroves } from "@/abi/SortedTroves";
 import { LeverageWETHZapper } from "@/abi/LeverageWETHZapper";
 import { LeverageLSTZapper } from "@/abi/LeverageLSTZapper";
+import { BorrowerOperations } from "@/abi/BorrowerOperations"
 import { erc20Abi } from "viem";
 
 export default function useHandleBorrow(validateInputs: () => boolean, wholeState: BorrowState) {
   const { address, chainId } = useAccount();
-  const avgInterest = useAvgInterest(wholeState.selectedCollateral.symbol);
+  const symbol = wholeState.selectedCollateral.symbol;
+  const branchSymbol = symbol === "ETH" ? "WETH" : symbol;
+  const avgInterest = useAvgInterest(branchSymbol);
 
   const currentNetworkContract = chainId === 1 || chainId === 31337 ? contractAddresses_1 : contractAddresses_11155111;
-  const currentBranch = currentNetworkContract.branches.find((b) => b.collSymbol === wholeState.selectedCollateral.symbol);
+  const currentBranch = currentNetworkContract.branches.find((b) => b.collSymbol === branchSymbol);
 
   return async () => {
     if (validateInputs() && address && currentBranch) {
       const ownerIndex = BigInt("0x" + Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join(""));
       const collateralWei = parseEther(wholeState.collateralAmount);
       const gasCompensationWei = parseEther(LIQUIDATION_GAS_COMPENSATION);
-      const value = wholeState.selectedCollateral.symbol === "WETH" ? collateralWei + gasCompensationWei : gasCompensationWei;
+
+      const isETH = symbol === "ETH";
+      const isWETH = symbol === "WETH";
+      const value = isETH ? collateralWei + gasCompensationWei : isWETH ? 0n : gasCompensationWei;
+
       const borrowWei = parseEther(wholeState.borrowAmount);
       const interestRateWei = parseEther(wholeState.interestRate.toString());
       const maxUpfrontFeeWei = parseEther(((((parseFloat(wholeState.borrowAmount) * avgInterest * 0.01) / 365) * 7) * 1.1).toString());
 
-      if (wholeState.selectedCollateral.symbol !== "WETH") {
+      if (!isETH) {
         const collToken = currentBranch.collToken as `0x${string}`;
-        const zapper = currentBranch.leverageZapper as `0x${string}`;
+        const spender = (isWETH ? currentBranch.borrowerOperations : currentBranch.leverageZapper) as `0x${string}`;
+        const needed = isWETH ? collateralWei + gasCompensationWei : collateralWei;
 
         const allowance = await readContract(wagmiConfig, {
           address: collToken,
           abi: erc20Abi,
           functionName: "allowance",
-          args: [address, zapper],
+          args: [address, spender],
         });
 
-        if (allowance < collateralWei) {
+        if (allowance < needed) {
           const approveHash = await writeContract(wagmiConfig, {
             address: collToken,
             abi: erc20Abi,
             functionName: "approve",
-            args: [zapper, collateralWei],
+            args: [spender, needed],
           });
           await waitForTransactionReceipt(wagmiConfig, { hash: approveHash });
         }
@@ -55,8 +63,8 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
 
       // Get hints
       let collIndex = 0;
-      if (wholeState.selectedCollateral.symbol === "wstETH") collIndex = 1;
-      else if (wholeState.selectedCollateral.symbol === "rETH") collIndex = 2;
+      if (symbol === "wstETH") collIndex = 1;
+      else if (symbol === "rETH") collIndex = 2;
 
       const numTroves = await readContract(wagmiConfig, {
         address: currentBranch.sortedTroves as `0x${string}`,
@@ -100,14 +108,28 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
         params,
       })
 
-//      const txHash = await writeContract(wagmiConfig, {
-//        address: currentBranch.leverageZapper as `0x${string}`,
-//        abi: wholeState.selectedCollateral.symbol === "WETH" ? LeverageWETHZapper : LeverageLSTZapper,
-//        functionName: "openTroveWithRawETH",
-//        args: [params],
-//        value,
-//      });
+      let txHash: `0x${string}`;
 
+      if (isWETH) {
+        txHash = await writeContract(wagmiConfig, {
+          address: currentBranch.borrowerOperations as `0x${string}`,
+          abi: BorrowerOperations,
+          functionName: "openTrove",
+          args: [
+            params.owner, params.ownerIndex, params.collAmount, params.boldAmount,
+            params.upperHint, params.lowerHint, params.annualInterestRate, params.maxUpfrontFee,
+            params.addManager, params.removeManager, params.receiver,
+          ],
+        });
+      } else {
+        txHash = await writeContract(wagmiConfig, {
+          address: currentBranch.leverageZapper as `0x${string}`,
+          abi: isETH ? LeverageWETHZapper : LeverageLSTZapper,
+          functionName: "openTroveWithRawETH",
+          args: [params],
+          value,
+        });
+      }
       console.log("Transaction hash:", txHash);
 
       borrowSubmitted();
@@ -115,7 +137,11 @@ export default function useHandleBorrow(validateInputs: () => boolean, wholeStat
   };
 }
 
-// G O A L
+
+// C O N T E X T
+
+// We call the function openTroveWithRawETH of the contract leverageZapper to open a trove using ETH, rETH, or wstETH as collateral.
+// We call the function openTrove of the contract borrowerOperations to open a trove using WETH as collateral.
 
 // CONTRACT: "leverageZapper": "0xdccbd7a365aee086aa3b4ede8afe895b20770ae3",
 // METHOD: openTroveWithRawETH from LeverageWETHZapper.ts
